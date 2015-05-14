@@ -24,12 +24,12 @@ static char* iptostr(unsigned ip) {
 	return inet_ntoa(addr);
 }
 
-static void on_message(void *buffer, int size) {
+static void on_message(void *buffer, int size, Socket *sk) {
 	google::protobuf::Message *msg_ptr = CreateMessage("spider.SMessage");
 	msg_ptr->ParseFromArray((char *)buffer + sizeof(Header_t), size - sizeof(Header_t));
 	SMessage* psmessage = (SMessage *)msg_ptr;
 
-	Fsm::OnMessage(psmessage);
+	Fsm::OnMessage(psmessage, sk);
 
 	delete msg_ptr;
 	msg_ptr = NULL;
@@ -237,7 +237,6 @@ int Socket::Read() {
 		}
 	}
 
-	INFO("Recv %d Bytes, Read Offset %d This Round", bytes, r_offset_);
 	if (bytes > (int)sizeof(Header_t)) {
 		Header_t *head;
 		head = (Header_t *)inbuf_;
@@ -257,11 +256,11 @@ int Socket::Read() {
 			return bytes;
 		} else if (bytes == msg_len) {
 			INFO("Bingo Bytes, Recv %d Bytes, Expected %d Bytes, Process Request Now", bytes, msg_len);
-			on_message((void *)inbuf_, msg_len);
+			on_message((void *)inbuf_, msg_len, this);
 			ClearRBuffer();	
 		} else {
 			INFO("More Bytes, Recv %d Bytes, Expected %d Bytes", bytes, msg_len);
-			on_message((void *)inbuf_, msg_len);
+			on_message((void *)inbuf_, msg_len, this);
 			// Reset Offset Manually
 			memcpy(inbuf_, inbuf_ + msg_len, bytes - msg_len);
 			memset(inbuf_ + bytes - msg_len, 0, msg_len);

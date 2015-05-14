@@ -8,11 +8,12 @@
 #include "event_driver.h"
 #include "server.h"
 #include "sock.h"
+#include "message.h"
 
 // Channel Not Actually Own The Socket
 class Channel {
 public:
-	Channel() {
+	Channel():sk_(NULL) {
 
 	}
 
@@ -28,7 +29,7 @@ public:
 
 	int SendRequest(const std::string &ip, int port, void *message, size_t len);
 
-	int SendResponse(void *message, size_t len);
+	int SendResponse(SMessage *msg);
 
 	int SendMessage(void *message, size_t len);
 	

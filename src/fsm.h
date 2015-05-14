@@ -31,7 +31,7 @@ public:
 		return machine_id_;
 	}
 
-	static int OnMessage(SMessage *);
+	static int OnMessage(SMessage *, Socket *);
 	
 	virtual Status_t InvokeCb(SMessage *);
 

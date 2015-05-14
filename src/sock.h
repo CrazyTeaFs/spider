@@ -91,7 +91,7 @@ class Socket
 	}
 
 	// Add Data To Output Buffer, Wait To Be Sent
-	void AppendSend(void *message, size_t len) {
+	void AppendSend(size_t len) {
 		append_offset_ += len;
 	}
 

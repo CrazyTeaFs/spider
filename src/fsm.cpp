@@ -12,7 +12,7 @@ static int generate_machine_number() {
 	return ++machine_flow_number;
 }
 
-int Fsm::OnMessage(SMessage *pmessage) {
+int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
 	DEBUG("Incoming Message\n%s", pmessage->DebugString().c_str());
 	int message_type = pmessage->header().type();
 	int dst_fsm_id = pmessage->header().dst_fsm();
@@ -25,6 +25,7 @@ int Fsm::OnMessage(SMessage *pmessage) {
 		// Create StateMachine
 		DEBUG("New State Machine, Request Id %d", message_type);
 		pstatemachine = FsmContainer::Instance()->NewStateMachine(message_type);
+		pstatemachine->SetSocket(sk);
 		if (pstatemachine == NULL) {
 			ERROR("Cannot Find StateMachine To Handle Incoming Message");
 			return FSM_NOTEXIST;

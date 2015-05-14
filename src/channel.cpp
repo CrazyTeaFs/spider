@@ -62,7 +62,17 @@ int Channel::SendRequest(const string &ip, int port, void *message, size_t len) 
 	return ret;
 }
 
-int Channel::SendResponse(void *message, size_t len) {
+int Channel::SendResponse(SMessage *msg) {
+	int size = msg->ByteSize();
+	int length = size + sizeof(Header_t);
+
+	void *buffer = malloc(length);
+	Header_t h;
+	h.length = htonl(length);
+	h.message_id = htonl(HEART_BEAT_REQUEST);
+	memcpy(buffer, &h, sizeof(h));
+	msg->SerializeToArray(sk_->GetWriteIndex(), length);
+	sk_->AppendSend(length);
 
 	return 0;
 }
