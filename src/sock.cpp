@@ -330,9 +330,8 @@ int Socket::Write() {
 			bytes += len;
 			w_offset_ += len;
 			append_offset_ -= len;
-			DEBUG("Write %d Bytes This Round", len);
 			// All Date Sent
-			if (append_offset_ == 0) {
+			if (append_offset_ <= 0) {
 				ClearWBuffer();
 				break;
 			}
