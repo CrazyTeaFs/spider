@@ -18,7 +18,8 @@ google::protobuf::Message* CreateMessage(const std::string &name) {
 	return message;
 }
 
-Header CopyHeader(const Header &header) {
+// Copy Incoming Request Header To MakeResponse, Except Message Type
+Header CopyRequestHeader(const Header &header) {
 	Header result;
 	result.set_flow_no(header.flow_no());
 	result.set_src_fsm(header.src_fsm());

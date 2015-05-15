@@ -22,7 +22,7 @@ Status_t HeartBeat::AliveResponse(void *smessage) {
 	SMessage response_;	
 	Header *header = response_.mutable_header();
 	Body *body = response_.mutable_body();
-	*header = CopyHeader(pmsg->header());
+	*header = CopyRequestHeader(pmsg->header());
 
 	HeartBeatResponse *res = body->MutableExtension(heart_beat_response); 
 
