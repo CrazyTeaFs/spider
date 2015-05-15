@@ -313,7 +313,7 @@ int Socket::Write() {
 	int bytes = 0;
 
 	while (true) {
-		len = send(sockfd_, outbuf_ + w_offset_, SOCKET_BUFFER_SIZE, 0);
+		len = send(sockfd_, outbuf_ + w_offset_, append_offset_, 0);
 		if (len < 0) {
 			if (errno == EAGAIN || errno == EWOULDBLOCK) {
 				// All Data Sent In Non-Blocking Socket
@@ -330,9 +330,11 @@ int Socket::Write() {
 			bytes += len;
 			w_offset_ += len;
 			append_offset_ -= len;
+			DEBUG("Write %d Bytes This Round", len);
 			// All Date Sent
 			if (append_offset_ == 0) {
 				ClearWBuffer();
+				break;
 			}
 		}
 	}

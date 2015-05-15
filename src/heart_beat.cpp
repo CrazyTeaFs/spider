@@ -19,19 +19,16 @@ Status_t HeartBeat::AliveResponse(void *smessage) {
 	SMessage *pmsg = (SMessage *)smessage;
 	INFO("I Am OKay");
 	
-	Header header;
-	Body body;
-	header = CopyHeader(pmsg->header());
+	SMessage response_;	
+	Header *header = response_.mutable_header();
+	Body *body = response_.mutable_body();
+	*header = CopyHeader(pmsg->header());
 
-	HeartBeatResponse *res = body.MutableExtension(heart_beat_response); 
+	HeartBeatResponse *res = body->MutableExtension(heart_beat_response); 
 
 	res->mutable_rc()->set_retcode(0);
 	res->mutable_rc()->set_error_msg("I Am OK");
 
-	SMessage response_;	
-	response_.set_allocated_header(&header);	
-	response_.set_allocated_body(&body);	
-	
 	SendResponse(&response_); 
 	return FSM_FINISH;
 }

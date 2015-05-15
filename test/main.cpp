@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
 
 	printf("Recv %lu Bytes\n", recv(sockfd, buffer, 1024, 0));
 
-	recieve->ParseFromArray(buffer, 1024);
+	recieve->ParseFromArray((char *)buffer + sizeof(header), 1024);
 	printf("Message: %s\n", recieve->DebugString().c_str());	
 
 	delete recieve;
