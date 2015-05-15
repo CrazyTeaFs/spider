@@ -252,10 +252,8 @@ int Socket::Read() {
 		}
 	
 		if (bytes < msg_len) {
-			ERROR("Insufficient Bytes, Recv %d Bytes, Expected %d Bytes, Wait For Next Packet", bytes, msg_len);
 			return bytes;
 		} else if (bytes == msg_len) {
-			INFO("Bingo Bytes, Recv %d Bytes, Expected %d Bytes, Process Request Now", bytes, msg_len);
 			on_message((void *)inbuf_, msg_len, this);
 			ClearRBuffer();	
 		} else {

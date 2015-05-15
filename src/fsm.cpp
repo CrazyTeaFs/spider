@@ -19,18 +19,15 @@ static char* iptostr(unsigned ip) {
 }
 
 int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
-	DEBUG("Incoming Message From%s:%d\n%s", iptostr(sk->GetPeerAddr().sin_addr.s_addr), ntohs(sk->GetPeerAddr().sin_port),
-	pmessage->DebugString().c_str());
+//	DEBUG("Incoming Message From%s:%d\n%s", iptostr(sk->GetPeerAddr().sin_addr.s_addr), ntohs(sk->GetPeerAddr().sin_port),
+//	pmessage->DebugString().c_str());
 	int message_type = pmessage->header().type();
 	int dst_fsm_id = pmessage->header().dst_fsm();
-
-	DEBUG("Incoming Message, Fsm id %d",  dst_fsm_id);
 
 	Fsm* pstatemachine = NULL;
 	// Initial State
 	if (dst_fsm_id == 0)	{
 		// Create StateMachine
-		DEBUG("New State Machine, Request Id %d", message_type);
 		pstatemachine = FsmContainer::Instance()->NewStateMachine(message_type);
 		pstatemachine->SetSocket(sk);
 		if (pstatemachine == NULL) {
@@ -75,7 +72,6 @@ int Fsm::SetGlobalStateName(int type, int state, state_cb_t callback) {
 Status_t Fsm::InvokeCb(SMessage *pmessage) {
 	int mytype = this->FsmType();
 	int mystate = state_;
-	INFO("InvokeCb, MyType:%d, State:%d", mytype, mystate);
 	
 	map<int, map<int, state_cb_t> >::iterator fsm_it;
 	map<int, state_cb_t>::iterator cb_it;
