@@ -20,12 +20,17 @@ Status_t HeartBeat::AliveResponse(void *smessage) {
 	INFO("I Am OKay");
 	
 	Header header;
+	Body body;
 	header = pmsg->header();
 	header.set_type(HEART_BEAT_RESPONSE);
+
+	HeartBeatResponse *res = body.MutableExtension(heart_beat_response); 
+
+	res->mutable_rc()->set_retcode(0);
+	res->mutable_rc()->set_error_msg("I Am OK");
+
 	response_.set_allocated_header(&header);	
-	HeartBeatResponse *res = response_.body().MutableExtension(heart_beat_response);
-	res.mutable_rc()->set_retcode(0);
-	res.mutable_rc()->set_error_msg("I Am OK");
+	response_.set_allocated_body(&body);	
 	
 	SendResponse(&response_);
 	return FSM_FINISH;
