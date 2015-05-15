@@ -86,9 +86,18 @@ int main(int argc, char **argv) {
 	
 	printf("Message: %s\n", message->DebugString().c_str());	
 	printf("Send %lu Bytes\n", send(sockfd, buffer, length, 0));
-	
-	delete message;
 	free(buffer);
+	delete message;
+
+	SMessage *recieve = new SMessage;
+	buffer = malloc(1024 * sizeof(char));
+
+	printf("Recv %lu Bytes\n", recv(sockfd, buffer, 1024, 0));
+
+	recieve->ParseFromArray(buffer, 1024);
+	printf("Message: %s\n", recieve->DebugString().c_str());	
+
+	delete recieve;
 
 	return 0;
 }

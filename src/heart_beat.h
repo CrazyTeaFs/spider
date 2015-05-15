@@ -18,7 +18,6 @@ public:
 	} State_t;
 
 private:
-	SMessage response_;	
 };
 
 #endif

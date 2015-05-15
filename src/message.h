@@ -14,4 +14,6 @@ typedef struct {
 
 google::protobuf::Message* CreateMessage(const std::string &name);
 
+Header CopyHeader(const Header &);
+
 #endif

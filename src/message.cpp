@@ -17,3 +17,15 @@ google::protobuf::Message* CreateMessage(const std::string &name) {
 
 	return message;
 }
+
+Header CopyHeader(const Header &header) {
+	Header result;
+	result.set_flow_no(header.flow_no());
+	result.set_src_fsm(header.src_fsm());
+	result.set_dst_fsm(header.dst_fsm());
+	result.set_src_state(header.src_state());
+	result.set_dst_state(header.dst_state());
+	result.set_type((MessageType)(header.type() + 1));
+
+	return result;
+}

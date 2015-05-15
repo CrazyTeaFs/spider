@@ -21,18 +21,18 @@ Status_t HeartBeat::AliveResponse(void *smessage) {
 	
 	Header header;
 	Body body;
-	header = pmsg->header();
-	header.set_type(HEART_BEAT_RESPONSE);
+	header = CopyHeader(pmsg->header());
 
 	HeartBeatResponse *res = body.MutableExtension(heart_beat_response); 
 
 	res->mutable_rc()->set_retcode(0);
 	res->mutable_rc()->set_error_msg("I Am OK");
 
+	SMessage response_;	
 	response_.set_allocated_header(&header);	
 	response_.set_allocated_body(&body);	
 	
-	SendResponse(&response_);
+	SendResponse(&response_); 
 	return FSM_FINISH;
 }
 
