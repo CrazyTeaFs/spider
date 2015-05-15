@@ -9,17 +9,33 @@
 #include <string.h>
 #include <strings.h>
 #include <errno.h>
+#include <time.h>
+#include <sys/time.h>
 #include <google/protobuf/message.h>
 #include <google/protobuf/descriptor.h>
 
 #include "message.pb.h"
 
 using namespace spider;
+using namespace std;
 
 typedef struct {
 	unsigned length;
 	unsigned message_id; 
 } header;
+
+// 19:30:30 030 Hour Minute Second Millisecond 
+string now_str() {
+    char now_str[128];
+
+    struct timeval now = {0};
+    struct tm pnow;
+    gettimeofday(&now, NULL);
+    localtime_r(&now.tv_sec, &pnow);
+	snprintf(now_str, sizeof(now_str) - 1, "%02d:%02d:%02d %06ld", pnow.tm_hour, pnow.tm_min, pnow.tm_sec, now.tv_usec);
+
+    return string(now_str);
+}
 
 google::protobuf::Message* CreateMessage(const std::string &name) {
 	google::protobuf::Message* message = NULL;
@@ -64,40 +80,46 @@ int main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 
-	SMessage *message = new SMessage;
-	Header *head = new Header;
-	head->set_flow_no(1234);
-	head->set_src_fsm(0);
-	head->set_dst_fsm(0);
-	head->set_src_state(0);
-	head->set_dst_state(0);
-	head->set_type(HEART_BEAT_REQUEST);
-	message->set_allocated_header(head);
+	printf("%s Now Start Ping-Pong Alive BenchMark\n", now_str().c_str());
+	for (int i = 0; i < 100000; i++) {
+		SMessage *message = new SMessage;
+		Header *head = new Header;
+		head->set_flow_no(1234);
+		head->set_src_fsm(0);
+		head->set_dst_fsm(0);
+		head->set_src_state(0);
+		head->set_dst_state(0);
+		head->set_type(HEART_BEAT_REQUEST);
+		message->set_allocated_header(head);
 
-	int size = message->ByteSize();
-	int length = size + sizeof(header);
-	printf("Message Size: %d Header Size:%d \n", length, length - size);
-	void *buffer = malloc(length);
-	header h;
-	h.length = htonl(length);
-	h.message_id = htonl(LOGIN_REQUEST);
-	memcpy(buffer, &h, sizeof(h));
-	message->SerializeToArray((char *)buffer + sizeof(header), size);
-	
-	printf("Message: %s\n", message->DebugString().c_str());	
-	printf("Send %lu Bytes\n", send(sockfd, buffer, length, 0));
-	free(buffer);
-	delete message;
+		int size = message->ByteSize();
+		int length = size + sizeof(header);
+		//	printf("Message Size: %d Header Size:%d \n", length, length - size);
+		void *buffer = malloc(length);
+		header h;
+		h.length = htonl(length);
+		h.message_id = htonl(LOGIN_REQUEST);
+		memcpy(buffer, &h, sizeof(h));
+		message->SerializeToArray((char *)buffer + sizeof(header), size);
 
-	SMessage *recieve = new SMessage;
-	buffer = malloc(1024 * sizeof(char));
+		//	printf("Message: %s\n", message->DebugString().c_str());	
+		//	printf("Send %lu Bytes\n", send(sockfd, buffer, length, 0));
+		send(sockfd, buffer, length, 0);
+		free(buffer);
+		delete message;
 
-	printf("Recv %lu Bytes\n", recv(sockfd, buffer, 1024, 0));
+		SMessage *recieve = new SMessage;
+		buffer = malloc(1024 * sizeof(char));
 
-	recieve->ParseFromArray((char *)buffer + sizeof(header), 1024);
-	printf("Message: %s\n", recieve->DebugString().c_str());	
+		//	printf("Recv %lu Bytes\n", recv(sockfd, buffer, 1024, 0));
+		recv(sockfd, buffer, 1024, 0);
+		recieve->ParseFromArray((char *)buffer + sizeof(header), 1024);
+		//	printf("Message: %s\n", recieve->DebugString().c_str());	
 
-	delete recieve;
+		delete recieve;
+		free(buffer);
+	}
 
+	printf("%s Finish Ping-Pong Alive BenchMark\n", now_str().c_str());
 	return 0;
 }
