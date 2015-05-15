@@ -17,7 +17,6 @@ int HeartBeat::FsmType() {
 
 Status_t HeartBeat::AliveResponse(void *smessage) {
 	SMessage *pmsg = (SMessage *)smessage;
-	INFO("I Am OKay");
 	
 	SMessage response_;	
 	Header *header = response_.mutable_header();
