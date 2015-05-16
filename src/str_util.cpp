@@ -105,3 +105,4 @@ string generate_key(int digit) {
     }
     return pwd;
 }
+
