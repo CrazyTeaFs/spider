@@ -18,12 +18,6 @@ using namespace spider;
 // Collect Current TCP Connections
 map<sockaddr_in, Socket *> gmap_tcpdest;
 
-static char* iptostr(unsigned ip) {
-	struct in_addr addr;
-	memcpy(&addr, &ip, 4);
-	return inet_ntoa(addr);
-}
-
 static int on_message(void *buffer, int size, Socket *sk) {
 	google::protobuf::Message *msg_ptr = CreateMessage("spider.SMessage");
 	if(!(msg_ptr->ParseFromArray((char *)buffer + sizeof(Header_t), size - sizeof(Header_t)))) {
@@ -243,7 +237,7 @@ int Socket::Read() {
 	}
 
 	if (bytes > (int)sizeof(Header_t)) {
-		if (!ValidMessage((void *)inbuf, bytes)) {
+		if (!ValidMessage((void *)inbuf_, bytes)) {
 			ERROR("Invalid Message Protocol, Discard Message");
 			ClearRBuffer();
 			return bytes;

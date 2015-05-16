@@ -4,10 +4,9 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/descriptor.h>
 #include "message.pb.h"
+#include "str_util.h"
 
 using namespace spider;
-
-const char *message_check_key = "0c675432-fbb0-11e4-acf8-60eb69eac53d";
 
 typedef struct {
 	unsigned length;

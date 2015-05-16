@@ -12,12 +12,6 @@ static int generate_machine_number() {
 	return ++machine_flow_number;
 }
 
-static char* iptostr(unsigned ip) {
-	struct in_addr addr;
-	memcpy(&addr, &ip, 4);
-	return inet_ntoa(addr);
-}
-
 int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
 	DEBUG("Incoming Message From %s:%d\n%s", iptostr(sk->GetPeerAddr().sin_addr.s_addr), ntohs(sk->GetPeerAddr().sin_port),
 	pmessage->DebugString().c_str());

@@ -5,12 +5,7 @@
 using namespace std;
 
 extern map<sockaddr_in, Socket *> gmap_tcpdest;
-
-static char* iptostr(unsigned ip) {
-	struct in_addr addr;
-	memcpy(&addr, &ip, 4);
-	return inet_ntoa(addr);
-}
+extern char *message_check_key;
 
 int CheckConnectTimeoutCb(void *data) {
 	Socket *sk = (Socket *)data;
@@ -68,8 +63,8 @@ int Channel::SendResponse(SMessage *msg) {
 	DEBUG("Total Length To Send: %d Bytes, Header %d Bytes, Content: %s", length, sizeof(Header_t), msg->DebugString().c_str());
 
 	Header_t *h = (Header_t *)(sk_->GetWriteIndex());
-	h->length = htonl(length);
-	h->checkip = htonl(sk_>);
+	h->length = ntohl(length);
+	h->check_hash = ntohl(BKDRHash(message_check_key));
 
 	msg->SerializeToArray(sk_->GetWriteIndex() + sizeof(Header_t), msg->ByteSize());
 	sk_->AppendSend(length);

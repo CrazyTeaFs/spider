@@ -60,7 +60,7 @@ string replace_all(const string &source, const string& sub, const string& target
     string::size_type j = 0;  
 
 	while ( (j = result.find(sub, i)) != string::npos ) {
-		if (len > sub_len) 
+		if (len > sub_len) { 
 			size_t offset = len - sub_len;
 			result.append(string(offset, '0'));
 			string tmp = result;
