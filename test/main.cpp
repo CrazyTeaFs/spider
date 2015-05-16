@@ -19,10 +19,47 @@
 using namespace spider;
 using namespace std;
 
+#define VERIFY_DIGIT 10
+int const APLPHABET = 62;
+char letter[62] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'
+, 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 
+'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
 typedef struct {
 	unsigned length;
-	unsigned message_id; 
-} header;
+	unsigned check_hash; 
+	char hash[VERIFY_DIGIT];
+} Header_t;
+
+// BKDR Hash 
+unsigned int BKDRHash(const string& str) {
+    unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
+    unsigned int hash = 0;
+
+    for(size_t i = 0; i < str.length(); i++)
+    {
+        hash = (hash * seed) + str[i];
+    }
+
+    return hash;
+}
+
+static int int_rand() {
+    return rand() % APLPHABET;
+}
+
+// Generate A Random String
+string generate_key(int digit) {
+    srand(time(NULL));
+    
+    string pwd(digit, '0');
+    for (int i = 0; i < digit; i++) {
+        char flow_char = letter[int_rand()];
+        pwd[i] = flow_char;
+    }
+    return pwd;
+}
+
 
 // 19:30:30 030 Hour Minute Second Millisecond 
 string now_str() {
@@ -81,7 +118,7 @@ int main(int argc, char **argv) {
 	}
 
 	printf("%s Now Start Ping-Pong Alive BenchMark\n", now_str().c_str());
-	for (int i = 0; i < 100000; i++) {
+	for (int i = 0; i < 1; i++) {
 		SMessage *message = new SMessage;
 		Header *head = new Header;
 		head->set_flow_no(1234);
@@ -93,17 +130,18 @@ int main(int argc, char **argv) {
 		message->set_allocated_header(head);
 
 		int size = message->ByteSize();
-		int length = size + sizeof(header);
-		//	printf("Message Size: %d Header Size:%d \n", length, length - size);
+		int length = size + sizeof(Header_t);
+		printf("Message Size: %d Header Size:%d \n", length, length - size);
 		void *buffer = malloc(length);
-		header h;
+		Header_t h;
 		h.length = htonl(length);
-		h.message_id = htonl(LOGIN_REQUEST);
-		memcpy(buffer, &h, sizeof(h));
-		message->SerializeToArray((char *)buffer + sizeof(header), size);
+		strncpy(h.hash, generate_key(VERIFY_DIGIT).c_str(), VERIFY_DIGIT);
+		h.check_hash = htonl(BKDRHash(string(h.hash)));
+		memcpy(buffer, &h, sizeof(Header_t));
+		message->SerializeToArray((char *)buffer + sizeof(Header_t), size);
 
-		//	printf("Message: %s\n", message->DebugString().c_str());	
-		//	printf("Send %lu Bytes\n", send(sockfd, buffer, length, 0));
+		printf("Message: %s\n", message->DebugString().c_str());	
+		printf("Send %lu Bytes\n", send(sockfd, buffer, length, 0));
 		send(sockfd, buffer, length, 0);
 		free(buffer);
 		delete message;
@@ -111,10 +149,9 @@ int main(int argc, char **argv) {
 		SMessage *recieve = new SMessage;
 		buffer = malloc(1024 * sizeof(char));
 
-		//	printf("Recv %lu Bytes\n", recv(sockfd, buffer, 1024, 0));
-		recv(sockfd, buffer, 1024, 0);
-		recieve->ParseFromArray((char *)buffer + sizeof(header), 1024);
-		//	printf("Message: %s\n", recieve->DebugString().c_str());	
+		printf("Recv %lu Bytes\n", recv(sockfd, buffer, 1024, 0));
+		recieve->ParseFromArray((char *)buffer + sizeof(Header_t), 1024);
+		printf("Message: %s\n", recieve->DebugString().c_str());	
 
 		delete recieve;
 		free(buffer);
