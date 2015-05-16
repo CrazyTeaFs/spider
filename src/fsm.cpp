@@ -19,7 +19,7 @@ static char* iptostr(unsigned ip) {
 }
 
 int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
-	DEBUG("Incoming Message From%s:%d\n%s", iptostr(sk->GetPeerAddr().sin_addr.s_addr), ntohs(sk->GetPeerAddr().sin_port),
+	DEBUG("Incoming Message From %s:%d\n%s", iptostr(sk->GetPeerAddr().sin_addr.s_addr), ntohs(sk->GetPeerAddr().sin_port),
 	pmessage->DebugString().c_str());
 	int message_type = pmessage->header().type();
 	int dst_fsm_id = pmessage->header().dst_fsm();
