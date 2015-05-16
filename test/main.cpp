@@ -142,7 +142,6 @@ int main(int argc, char **argv) {
 
 		printf("Message: %s\n", message->DebugString().c_str());	
 		printf("Send %lu Bytes\n", send(sockfd, buffer, length, 0));
-		send(sockfd, buffer, length, 0);
 		free(buffer);
 		delete message;
 
