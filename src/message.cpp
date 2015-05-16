@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const char *message_check_key = "0c675432-fbb0-11e4-acf8-60eb69eac53d";
+//const char *message_check_key = "0c675432-fbb0-11e4-acf8-60eb69eac53d";
 
 // Note: Don't Forget Delete Pointer.
 google::protobuf::Message* CreateMessage(const std::string &name) {
@@ -43,7 +43,7 @@ bool ValidMessage(void *buffer, int len) {
 	Header_t *h = (Header_t *)buffer;
 	unsigned check_value = htonl(h->check_hash);
 
-	if (check_value != BKDRHash(message_check_key)) {
+	if (check_value != BKDRHash(string(h->hash))) {
 		return false;
 	}
 	

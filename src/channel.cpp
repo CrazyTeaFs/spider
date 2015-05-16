@@ -64,7 +64,8 @@ int Channel::SendResponse(SMessage *msg) {
 
 	Header_t *h = (Header_t *)(sk_->GetWriteIndex());
 	h->length = ntohl(length);
-	h->check_hash = ntohl(BKDRHash(message_check_key));
+	strncpy(h->hash, generate_key(VERIFY_DIGIT).c_str(), VERIFY_DIGIT);
+	h->check_hash = ntohl(BKDRHash(string(h->hash)));
 
 	msg->SerializeToArray(sk_->GetWriteIndex() + sizeof(Header_t), msg->ByteSize());
 	sk_->AppendSend(length);
