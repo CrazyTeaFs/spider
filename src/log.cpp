@@ -53,14 +53,15 @@ string now_str() {
 }
 
 // Singleton, Not Multi-Thread Safe
-Log* Log::Instance() {
+Log* Log::Instance(const string &path, const string &prefix, const string &suffix) {
 	if (plog_ == NULL) {
-		plog_ = new Log(true);
+		plog_ = new Log(true, path, prefix, suffix);
 	}
 	return plog_;
 }
 
-Log::Log(bool enable_buff): fd_(-1), level_(LOG_DEBUG), path_("../log"), prefix_("undefined"), suffix_(".log"), buff_offset_(0) {
+Log::Log(bool enable_buff, const string &path, const string &prefix, const string &suffix): fd_(-1), level_(LOG_DEBUG), 
+path_(path), prefix_(prefix), suffix_(suffix), buff_offset_(0) {
 	// Check Existence, If Not, Create It
 	if (access(path_.c_str(), F_OK) != 0) {
 		mkdir(path_.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);

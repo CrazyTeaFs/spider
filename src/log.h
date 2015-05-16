@@ -43,10 +43,21 @@ public:
 		}
 	}
 
-	static Log* Instance();
+	static Log* Instance(const std::string &path = "../log", const std::string &prefix = "undefined", const std::string &suffix = ".log");
 
 	void SetPath(const std::string &path) {
 		path_ = path;
+		FindExistingLog();
+	}
+
+	void SetPrefix(const std::string &prefix) {
+		prefix_ = prefix;
+		FindExistingLog();
+	}
+
+	void SetSuffix(const std::string &suffix) {
+		suffix_ = suffix;
+		FindExistingLog();
 	}
 
 	size_t Record(Loglevel_t level, const char *file, int line, const char *func, const char *format, ...);
@@ -56,7 +67,7 @@ public:
 	
 private:
 	// Private Constructor For Singletion
-	Log(bool enable_buff);
+	Log(bool enable_buff, const std::string &path = "../log", const std::string &prefix = "undefined", const std::string &suffix = ".log");
 
 	size_t WriteRecord(Loglevel_t level, const char *file, int line, const char *func, const char *format, va_list args);
 
@@ -71,7 +82,7 @@ private:
 	unsigned files_counter_;
 	Loglevel_t level_;
 
-	std::string path_;		
+ 	std::string path_;		
 	std::string prefix_;		
 	std::string suffix_;		
 	std::string current_file_;		

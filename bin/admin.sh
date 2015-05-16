@@ -14,7 +14,7 @@ then
 	pidnum=`ps -ef|grep "\./spider-server"|grep -v grep|wc -l`
 	if [ $pidnum -lt 1 ]
 	then
-        ./spider-server 8888
+        ./spider-server 
 	else
 		for pid in `ps -ef|grep "./spider-server"|grep -v grep|awk '{print $2}'`
 		do
@@ -27,10 +27,10 @@ then
 					echo "program already started."
 					exit
 				else
-        			./spider-server 8888
+        			./spider-server 
 				fi
 			else
-        			./spider-server 8888
+        			./spider-server 
 				break
 			fi	
 		done

@@ -8,6 +8,7 @@
 #include "event_driver.h"
 #include "timer.h"
 #include "log.h"
+#include "ini.h"
 #include "message.pb.h"
 
 static const char *version = "Spider0.1.0";
@@ -67,19 +68,53 @@ void dump_stacktrace(int signal) {
 	exit(EXIT_FAILURE);
 }
 
-int main(int argc , char **argv) {
-	if (argc != 2) {
-		printf("usage: %s port_number\n", basename(argv[0]));
+// Config Log And Listenning Port 
+int init_config(int &port) {
+	Ini config;
+	if (config.LoadFile("../conf/server.ini") != 0) {
+		printf("Failed To Initialize Configuration File, Process Abort\n");
 		exit(EXIT_FAILURE);
 	}
 
+	int ret = 0;
+	string logprefix, path, suffix;
+	ret = config.GetStringKey("log", "prefix", logprefix);
+	if (ret != 0) {
+		printf("Failed To Initialize Log Prefix, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	ret = config.GetStringKey("log", "suffix", suffix);
+	if (ret != 0) {
+		printf("Failed To Initialize Log Suffix, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	ret = config.GetStringKey("log", "path", path);
+	if (ret != 0) {
+		printf("Failed To Initialize Log Path, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	ret = config.GetIntKey("server", "port", port);
+	if (ret != 0) {
+		printf("Failed To Get Config Port, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	Log::Instance(path, logprefix, suffix);
+	return ret;
+}
+
+int main(int argc , char **argv) {
+	int port = 0;
+	init_config(port);
 	// When Segmentation Fault Occurs, Print Diagnose Information
 	signal(SIGSEGV, dump_stacktrace);
-//	signal(SIGABRT, dump_stacktrace);
+	signal(SIGABRT, dump_stacktrace);
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGINT, ctrl_c_handler);
 
-	int port = atoi(argv[1]);
 	int fd = socket(PF_INET, SOCK_STREAM, 0);
 
 	/*printf("Start LogBench: %s\n", now_str().c_str());
