@@ -15,6 +15,7 @@
 
 // 20KB InBuffer And OutBuffer
 #define SOCKET_BUFFER_SIZE (20*1024)
+#define INVALID_MESSAGE -1
 
 typedef enum {
 	SOCK_IDLE,

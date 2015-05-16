@@ -69,7 +69,7 @@ int Channel::SendResponse(SMessage *msg) {
 
 	Header_t *h = (Header_t *)(sk_->GetWriteIndex());
 	h->length = htonl(length);
-	h->message_id = htonl(HEART_BEAT_REQUEST);
+	h->checkip = htonl(sk_>);
 
 	msg->SerializeToArray(sk_->GetWriteIndex() + sizeof(Header_t), msg->ByteSize());
 	sk_->AppendSend(length);

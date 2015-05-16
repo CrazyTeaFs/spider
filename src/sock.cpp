@@ -24,16 +24,21 @@ static char* iptostr(unsigned ip) {
 	return inet_ntoa(addr);
 }
 
-static void on_message(void *buffer, int size, Socket *sk) {
+static int on_message(void *buffer, int size, Socket *sk) {
 	google::protobuf::Message *msg_ptr = CreateMessage("spider.SMessage");
-	msg_ptr->ParseFromArray((char *)buffer + sizeof(Header_t), size - sizeof(Header_t));
-	SMessage* psmessage = (SMessage *)msg_ptr;
+	if(!(msg_ptr->ParseFromArray((char *)buffer + sizeof(Header_t), size - sizeof(Header_t)))) {
+		ERROR("Invalid Message Protocol");
+		delete msg_ptr;
+		return INVALID_MESSAGE;
+	}
 
+	SMessage* psmessage = (SMessage *)msg_ptr;
 	Fsm::OnMessage(psmessage, sk);
 
 	delete msg_ptr;
 	msg_ptr = NULL;
 	psmessage = NULL;
+	return 0;
 }
 
 // Initialize File Descriptor, Set No Blocking, No Delay, Address Reuse, KeepAlive
@@ -238,6 +243,12 @@ int Socket::Read() {
 	}
 
 	if (bytes > (int)sizeof(Header_t)) {
+		if (!ValidMessage((void *)inbuf, bytes)) {
+			ERROR("Invalid Message Protocol, Discard Message");
+			ClearRBuffer();
+			return bytes;
+		}
+	
 		Header_t *head;
 		head = (Header_t *)inbuf_;
 		int msg_len = ntohl(head->length);
@@ -252,12 +263,14 @@ int Socket::Read() {
 		}
 	
 		if (bytes < msg_len) {
+			DEBUG("Insufficient Bytes, Recv %d Bytes, Expected %d Bytes", bytes, msg_len);
 			return bytes;
 		} else if (bytes == msg_len) {
+			DEBUG("Bingo Bytes, Recv %d Bytes, Expected %d Bytes", bytes, msg_len);
 			on_message((void *)inbuf_, msg_len, this);
 			ClearRBuffer();	
 		} else {
-			INFO("More Bytes, Recv %d Bytes, Expected %d Bytes", bytes, msg_len);
+			DEBUG("More Bytes, Recv %d Bytes, Expected %d Bytes", bytes, msg_len);
 			on_message((void *)inbuf_, msg_len, this);
 			// Reset Offset Manually
 			memcpy(inbuf_, inbuf_ + msg_len, bytes - msg_len);

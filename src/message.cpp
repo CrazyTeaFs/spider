@@ -1,4 +1,5 @@
 #include "message.h"
+#include "sock.h"
 
 using namespace std;
 
@@ -29,4 +30,18 @@ Header CopyRequestHeader(const Header &header) {
 	result.set_type((MessageType)(header.type() + 1));
 
 	return result;
+}
+
+// Use Header_t check_ip Field to Check Whether Incoming Message Is Our Private Protocol Encoded Message
+bool ValidMessage(void *buffer, int len, Socket *sk) {		
+	if (len < sizeof(Header_t)) {
+		return false;
+	}
+
+	Header_t *h = (Header_t)buffer;
+	if ((htonl(h->check_ip) != htonl(sk->peer_.sin_addr.s_addr))) {
+		return false;
+	}
+	
+	return true;	
 }
