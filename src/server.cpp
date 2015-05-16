@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <iostream>
+#include <strings.h>
 
 #include "server.h"
 #include "event_driver.h"
@@ -12,6 +13,7 @@
 #include "message.pb.h"
 
 static const char *version = "Spider0.1.0";
+extern LogLevel Levelname[LOG_DEBUG + 1];
 
 using namespace std;
 
@@ -77,7 +79,8 @@ int init_config(int &port) {
 	}
 
 	int ret = 0;
-	string logprefix, path, suffix;
+	Loglevel_t level = LOG_DEBUG;
+	string logprefix, path, suffix, loglevel;
 	ret = config.GetStringKey("log", "prefix", logprefix);
 	if (ret != 0) {
 		printf("Failed To Initialize Log Prefix, Process Abort\n");
@@ -96,13 +99,25 @@ int init_config(int &port) {
 		exit(EXIT_FAILURE);
 	}
 
+	ret = config.GetStringKey("log", "level", loglevel);
+	if (ret != 0) {
+		printf("Failed To Get Config Log Level, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
 	ret = config.GetIntKey("server", "port", port);
 	if (ret != 0) {
 		printf("Failed To Get Config Port, Process Abort\n");
 		exit(EXIT_FAILURE);
 	}
+	
+	for (int i = 0; i <= LOG_DEBUG; i++) {
+		if (strcasecmp(Levelname[i].name, loglevel.c_str()) == 0) {
+			level = Levelname[i].level;
+		}
+	}
 
-	Log::Instance(path, logprefix, suffix);
+	Log::Instance(path, logprefix, suffix, level);
 	return ret;
 }
 
