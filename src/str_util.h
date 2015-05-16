@@ -13,4 +13,7 @@ std::string replace_all(const std::string &source, const std::string& sub, const
 // Ip To Dotted Decimal String
 char* iptostr(unsigned host_ip);
 
+// Generate A Random String
+std::string generate_key(int digit);
+
 #endif

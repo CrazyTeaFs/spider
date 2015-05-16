@@ -6,6 +6,12 @@
 
 using namespace std;
 
+int const APLPHABET = 62;
+
+char letter[62] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'
+, 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 
+'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
 // Spilt String By A Delimter
 vector<string> split(const string &str, char pattern) {  
     string::size_type i = 0;  
@@ -82,4 +88,20 @@ string replace_all(const string &source, const string& sub, const string& target
 		}
 	}
 	return result;
+}
+
+static int int_rand() {
+    return rand() % APLPHABET;
+}
+
+// Generate A Random String
+string generate_key(int digit) {
+    srand(time(NULL));
+    
+    string pwd(digit, '0');
+    for (int i = 0; i < digit; i++) {
+        char flow_char = letter[int_rand()];
+        pwd[i] = flow_char;
+    }
+    return pwd;
 }
