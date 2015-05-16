@@ -4,7 +4,7 @@ CFLAG =-g -Wall
 INCLUDE =-I../proto
 LINK =-L../lib
 LIB =../lib/libmsg.a
-LINKER =-lprotobuf -lmsg  
+LINKER =-lprotobuf -lmsg -lpthread
 EXE =client
 all:
 	$(CC) $(INCLUDE) $(SRC) $(CFLAG) $(LINK) $(LINKER) -o $(EXE)

@@ -10,6 +10,7 @@
 #include <strings.h>
 #include <errno.h>
 #include <time.h>
+#include <pthread.h>
 #include <sys/time.h>
 #include <google/protobuf/message.h>
 #include <google/protobuf/descriptor.h>
@@ -20,6 +21,8 @@ using namespace spider;
 using namespace std;
 
 #define VERIFY_DIGIT 10
+#define THREADS 50
+
 int const APLPHABET = 62;
 char letter[62] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'
 , 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 
@@ -47,6 +50,8 @@ unsigned int BKDRHash(const string& str) {
 static int int_rand() {
     return rand() % APLPHABET;
 }
+
+void *benchmark(void* args); 
 
 // Generate A Random String
 string generate_key(int digit) {
@@ -97,9 +102,27 @@ int main(int argc, char **argv) {
 
     signal(SIGPIPE, SIG_IGN);
 
-	const char *ip = argv[1];
-	int port = atoi(argv[2]);
+	pthread_t thread[THREADS];
+	
+	for (int t = 0; t < THREADS; t++) {
+		int rc = pthread_create(&thread[t], NULL, benchmark, &t);
+		if (rc) {
+			printf("ERROR; return code %d\n", rc);
+			exit(EXIT_FAILURE);
+		}
+	}
 
+	for (int t = 0; t < THREADS; t++) {
+		pthread_join(thread[t], NULL);
+	}
+
+	printf("%s Finish Ping-Pong Alive BenchMark\n", now_str().c_str());
+	return 0;
+}
+
+void *benchmark(void* args) {
+	const char *ip = "127.0.0.1";
+	int port = 8888;
 	struct sockaddr_in address;
 	bzero(&address, sizeof(address));
 	address.sin_family = AF_INET;
@@ -118,7 +141,7 @@ int main(int argc, char **argv) {
 	}
 
 	printf("%s Now Start Ping-Pong Alive BenchMark\n", now_str().c_str());
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 10000; i++) {
 		SMessage *message = new SMessage;
 		Header *head = new Header;
 		head->set_flow_no(1234);
@@ -156,6 +179,5 @@ int main(int argc, char **argv) {
 		free(buffer);
 	}
 
-	printf("%s Finish Ping-Pong Alive BenchMark\n", now_str().c_str());
-	return 0;
+	return NULL;
 }
