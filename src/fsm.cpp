@@ -4,13 +4,16 @@
 
 using namespace std;
 
-map<int, map<int, state_cb_t> > Fsm::fsm_callbacks_;
-
 static int machine_flow_number = 0;
 
 static int generate_machine_number() {
 	return ++machine_flow_number;
 }
+
+static std::map<int, std::map <int, state_cb_t> > &StateCallbackMap()  {  
+	static map<int, map<int, state_cb_t> > ret;
+    return ret;  
+}  
 
 int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
 	DEBUG("Incoming Message From %s:%d\n%s", iptostr(sk->GetPeerAddr().sin_addr.s_addr), ntohs(sk->GetPeerAddr().sin_port),
@@ -57,11 +60,11 @@ int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
 }
 
 int Fsm::SetGlobalStateName(int type, int state, state_cb_t callback) {
-    map<int, map<int, state_cb_t> >::iterator it = fsm_callbacks_.find(type);
-    if ( it == fsm_callbacks_.end() ) {
+    map<int, map<int, state_cb_t> >::iterator it = StateCallbackMap().find(type);
+    if ( it == StateCallbackMap().end() ) {
         map<int, state_cb_t> tmp;
         tmp.insert(make_pair(state, callback));
-        fsm_callbacks_.insert(make_pair(type, tmp));
+        StateCallbackMap().insert(make_pair(type, tmp));
     } else {
         pair<map<int, state_cb_t>::iterator, bool> ret;
         ret = it->second.insert(make_pair(state, callback));
@@ -77,8 +80,8 @@ Status_t Fsm::InvokeCb(SMessage *pmessage) {
 	map<int, map<int, state_cb_t> >::iterator fsm_it;
 	map<int, state_cb_t>::iterator cb_it;
 
-	fsm_it = fsm_callbacks_.find(mytype);
-	if (fsm_it == fsm_callbacks_.end()) {
+	fsm_it = StateCallbackMap().find(mytype);
+	if (fsm_it == StateCallbackMap().end()) {
 		ERROR("Cannot Find Corresponding Fsm, MyType:%d, State:%d", mytype, mystate);
 		return FSM_ERROR;
 	}

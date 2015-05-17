@@ -8,6 +8,12 @@
 #include "sock.h"
 #include "message.h"
 
+#ifndef DEFAULT_MEMBER
+#define DEFAULT_MEMBER(classsname)			    \
+	classname(); 				                \
+	virtual ~classname();			            
+#endif
+
 typedef enum {
 	FSM_NOTEXIST = -3,
 	FSM_TIMEOUT = -2,
@@ -41,7 +47,7 @@ public:
 
 protected:
 	// <machine_id, <state, callback>>
-	static std::map<int, std::map<int, state_cb_t> > fsm_callbacks_;
+//	static std::map<int, std::map<int, state_cb_t> > StateCallbackMap();
 
 private:
 	int machine_id_;
