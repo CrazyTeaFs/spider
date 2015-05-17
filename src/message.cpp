@@ -34,7 +34,7 @@ Header CopyRequestHeader(const Header &header) {
 	return result;
 }
 
-// Use Header_t check_ip Field to Check Whether Incoming Message Is Our Private Protocol Encoded Message
+// Use Header_t check_hash and hash Field to Check Whether Incoming Message Is Our Private Protocol Encoded Message
 bool ValidMessage(void *buffer, int len) {		
 	if (len < (int) sizeof(Header_t)) {
 		return false;
