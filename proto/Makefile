@@ -2,7 +2,7 @@ SRC = *.cc
 CC = g++
 CFLAG = -g -fPIC -ggdb -Wall -c 
 EXE = libmsg.a
-LIB = ../lib
+LIB = ../lib/
 all:
 	protoc -I=. --cpp_out=. *.proto
 	$(CC) $(SRC) $(CFLAG)
