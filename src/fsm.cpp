@@ -25,7 +25,7 @@ int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
 		pstatemachine = FsmContainer::Instance()->NewStateMachine(message_type);
 		pstatemachine->SetSocket(sk);
 		if (pstatemachine == NULL) {
-			ERROR("Cannot Find StateMachine To Handle Incoming Message");
+			ERROR("Cannot Find StateMachine To Handle Incoming Request");
 			return FSM_NOTEXIST;
 		}
 		Status_t ret = pstatemachine->InvokeCb(pmessage);
@@ -38,7 +38,7 @@ int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
 		if (pstatemachine == NULL) {
 			pstatemachine = FsmContainer::Instance()->NewStateMachine(message_type);
 			if (pstatemachine == NULL) {
-				ERROR("Cannot Find StateMachine To Handle Incoming Message");
+				ERROR("Cannot Find StateMachine To Handle Incoming Request");
 				return FSM_NOTEXIST;
 			}
 			Status_t ret = pstatemachine->InvokeCb(pmessage);
@@ -57,9 +57,16 @@ int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
 }
 
 int Fsm::SetGlobalStateName(int type, int state, state_cb_t callback) {
-	map<int, state_cb_t> tmp;
-	tmp.insert(make_pair(state, callback));
-	fsm_callbacks_.insert(make_pair(type, tmp));
+    map<int, map<int, state_cb_t> >::iterator it = fsm_callbacks_.find(type);
+    if ( it == fsm_callbacks_.end() ) {
+        map<int, state_cb_t> tmp;
+        tmp.insert(make_pair(state, callback));
+        fsm_callbacks_.insert(make_pair(type, tmp));
+    } else {
+        pair<map<int, state_cb_t>::iterator, bool> ret;
+        ret = it->second.insert(make_pair(state, callback));
+        return (ret.second? 0: -1);
+    }
 	return 0;
 }
 
