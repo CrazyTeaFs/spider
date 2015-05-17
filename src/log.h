@@ -43,7 +43,8 @@ public:
 		}
 	}
 
-	static Log* Instance(const std::string &path = "../log", const std::string &prefix = "undefined", const std::string &suffix = ".log");
+	static Log* Instance(const std::string &path = "../log", const std::string &prefix = "undefined", const std::string &suffix = ".log", 
+		Loglevel_t level = LOG_DEBUG);
 
 	void SetPath(const std::string &path) {
 		path_ = path;
@@ -67,7 +68,8 @@ public:
 	
 private:
 	// Private Constructor For Singletion
-	Log(bool enable_buff, const std::string &path = "../log", const std::string &prefix = "undefined", const std::string &suffix = ".log");
+	Log(bool enable_buff, const std::string &path = "../log", const std::string &prefix = "undefined", const std::string &suffix = ".log", 
+		Loglevel_t level = LOG_DEBUG);
 
 	size_t WriteRecord(Loglevel_t level, const char *file, int line, const char *func, const char *format, va_list args);
 
@@ -88,9 +90,11 @@ private:
 	std::string current_file_;		
 	std::string today_;		
 	
+
 	bool enable_buff_;
 	char *pbuff_;
 	size_t buff_offset_;
+
 	static Log *plog_;
 };
 

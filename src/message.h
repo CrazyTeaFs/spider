@@ -6,11 +6,14 @@
 #include "message.pb.h"
 #include "str_util.h"
 
+#define VERIFY_DIGIT 10
+
 using namespace spider;
 
 typedef struct {
 	unsigned length;
 	unsigned check_hash; 
+	char hash[VERIFY_DIGIT];
 } Header_t;
 
 google::protobuf::Message* CreateMessage(const std::string &name);

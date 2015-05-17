@@ -60,11 +60,13 @@ int Channel::SendRequest(const string &ip, int port, void *message, size_t len) 
 int Channel::SendResponse(SMessage *msg) {
 	int size = msg->ByteSize();
 	int length = size + sizeof(Header_t);
-	DEBUG("Total Length To Send: %d Bytes, Header %d Bytes, Content: %s", length, sizeof(Header_t), msg->DebugString().c_str());
+	DEBUG("Dest %s:%d, Total Length To Send: %d Bytes, Header %d Bytes, Content: %s", iptostr(sk_->GetPeerAddr().sin_addr.s_addr), 
+	ntohs(sk_->GetPeerAddr().sin_port), length, sizeof(Header_t), msg->DebugString().c_str());
 
 	Header_t *h = (Header_t *)(sk_->GetWriteIndex());
-	h->length = ntohl(length);
-	h->check_hash = ntohl(BKDRHash(message_check_key));
+	h->length = htonl(length);
+	strncpy(h->hash, generate_key(VERIFY_DIGIT).c_str(), VERIFY_DIGIT);
+	h->check_hash = htonl(BKDRHash(string(h->hash)));
 
 	msg->SerializeToArray(sk_->GetWriteIndex() + sizeof(Header_t), msg->ByteSize());
 	sk_->AppendSend(length);

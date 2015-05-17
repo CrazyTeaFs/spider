@@ -98,10 +98,11 @@ static int int_rand() {
 string generate_key(int digit) {
     srand(time(NULL));
     
-    string pwd(digit, '0');
+    string result(digit, '0');
     for (int i = 0; i < digit; i++) {
         char flow_char = letter[int_rand()];
-        pwd[i] = flow_char;
+        result[i] = flow_char;
     }
-    return pwd;
+    return result;
 }
+

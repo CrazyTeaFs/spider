@@ -53,14 +53,14 @@ string now_str() {
 }
 
 // Singleton, Not Multi-Thread Safe
-Log* Log::Instance(const string &path, const string &prefix, const string &suffix) {
+Log* Log::Instance(const string &path, const string &prefix, const string &suffix, Loglevel_t level) {
 	if (plog_ == NULL) {
-		plog_ = new Log(true, path, prefix, suffix);
+		plog_ = new Log(true, path, prefix, suffix, level);
 	}
 	return plog_;
 }
 
-Log::Log(bool enable_buff, const string &path, const string &prefix, const string &suffix): fd_(-1), level_(LOG_DEBUG), 
+Log::Log(bool enable_buff, const string &path, const string &prefix, const string &suffix, Loglevel_t level): fd_(-1), level_(level), 
 path_(path), prefix_(prefix), suffix_(suffix), buff_offset_(0) {
 	// Check Existence, If Not, Create It
 	if (access(path_.c_str(), F_OK) != 0) {
