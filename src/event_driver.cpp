@@ -132,7 +132,6 @@ void EventDriver::Tick(int fd, void *args) {
 
 	it->second->ActivateCb(args);
 	if (it->second->OnceOnly()) {
-		printf("Only Once\n");
 		DelTimer(it->second);
 	}
 
