@@ -95,7 +95,7 @@ Status_t Fsm::InvokeCb(SMessage *pmessage) {
 	return cb_it->second(this, pmessage);
 }
 
-Fsm::Fsm() {
+Fsm::Fsm():state_(0) {
 	machine_id_ = generate_machine_number();
 	FsmContainer::Instance()->AddStateMachine(machine_id_, this);
 }
