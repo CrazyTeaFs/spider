@@ -27,15 +27,15 @@ public:
 		return protocol_;
 	}
 
-	std::string Hostname(const std::string &source) {
+	std::string Hostname() {
 		return hostname_;
 	}
 
-	std::string Path(const std::string &source) {
+	std::string Path() {
 		return path_;
 	}
 
-	std::string QueryString(const std::string &source) {
+	std::string QueryString() {
 		return querystring_;
 	}
 

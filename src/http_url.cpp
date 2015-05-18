@@ -6,17 +6,21 @@ using namespace std;
 const string proto_regex = "^(https?:\\/\\/)?";
 const string hostname_regex = "([0-9a-zA-Z-]+\\.)+[0-9a-zA-Z]{2,6}";
 const string port_regex = "(:[0-9]{1,5})?";
+const string port_get_regex = ":[0-9]{1,5}";
+//Pattern                      /apple/banan_a/orange.html
 const string path_regex = "(\\/([[:alnum:]_-]+\\/)*([[:alnum:]_-]+\\.?[[:alnum:]_-])+)?";
+const string path_get_regex = "(\\/([[:alnum:]_-]+\\/)*([[:alnum:]_-]+\\.?[[:alnum:]_-])+[$\\?])";
 const string querystring_regex = "(\\?((([[:alnum:]%_-]+=[[:alnum:]%\\._-]+)&)*([[:alnum:]%_-]+=[[:alnum:]%\\._-]+)))?$";
 
 int HttpUrl::Parse(const string &source) {  
 	int ret = 0;
-	if ( (ret = UrlValid(source)) != 0) {
+	if ((ret = UrlValid(source)) != 0) {
 		return ret;
 	}
 	
 	GetProtocol(source);
 	GetHostName(source);
+	GetPort(source);
 	GetPath(source);
 	GetQueryString(source);
 	ParseQueryString(querystring_);
@@ -41,7 +45,7 @@ int HttpUrl::UrlValid(const string &source) {
 	// Not A Http Url
 	if ( (ret = regexec(&reg, source.c_str(), 0, NULL, 0)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
-		ERROR("Failed to Compile Regular Expression, %s\n", buf);
+		ERROR("Failed to Execute Regular Expression, %s\n", buf);
 		regfree(&reg);
 		return ret;
 	}
@@ -57,7 +61,6 @@ int HttpUrl::GetProtocol(const string &source) {
 	char buf[1024] = {0};
 	regex_t reg;
 
-	regfree(&reg);
 	if ( (ret = regcomp(&reg, proto_regex.c_str(), REG_EXTENDED)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
 		ERROR("Failed to Compile Regular Expression, %s\n", buf);
@@ -67,16 +70,20 @@ int HttpUrl::GetProtocol(const string &source) {
 
 	if ( (ret = regexec(&reg, source.c_str(), 1, store, 0)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
-		ERROR("Failed to Compile Regular Expression, %s\n", buf);
+		ERROR("Failed to Execute Regular Expression, %s\n", buf);
 		regfree(&reg);
 		return ret;
 	}
 
 	memcpy(buf, source.c_str() + store[0].rm_so, store[0].rm_eo - store[0].rm_so);
-	protocol_ = buf;
-	if (protocol_.empty()) {
-		ret = NOTEXIST;
+	
+	string protocol = buf;
+	if (protocol.empty()) {
+		protocol_ = "http";
+		return NOTEXIST;
 	}
+	// Remove ://
+	protocol_ = protocol.substr(0, protocol.length() - 3);
 
 	regfree(&reg);
 	return ret;
@@ -88,7 +95,6 @@ int HttpUrl::GetHostName(const string &source) {
 	char buf[1024] = {0};
 	regex_t reg;
 
-	regfree(&reg);
 	if ( (ret = regcomp(&reg, hostname_regex.c_str(), REG_EXTENDED)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
 		ERROR("Failed to Compile Regular Expression, %s\n", buf);
@@ -98,7 +104,7 @@ int HttpUrl::GetHostName(const string &source) {
 
 	if ( (ret = regexec(&reg, source.c_str(), 1, store, 0)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
-		ERROR("Failed to Compile Regular Expression, %s\n", buf);
+		ERROR("Failed to Excute Regular Expression, %s\n", buf);
 		regfree(&reg);
 		return ret;
 	}
@@ -119,8 +125,7 @@ int HttpUrl::GetPath(const string &source) {
 	char buf[1024] = {0};
 	regex_t reg;
 
-	regfree(&reg);
-	if ( (ret = regcomp(&reg, path_regex.c_str(), REG_EXTENDED)) != 0) {
+	if ( (ret = regcomp(&reg, path_get_regex.c_str(), REG_EXTENDED)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
 		ERROR("Failed to Compile Regular Expression, %s\n", buf);
 		regfree(&reg);
@@ -129,16 +134,20 @@ int HttpUrl::GetPath(const string &source) {
 
 	if ( (ret = regexec(&reg, source.c_str(), 1, store, 0)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
-		ERROR("Failed to Compile Regular Expression, %s\n", buf);
+		ERROR("Failed to Excute Regular Expression, %s\n", buf);
 		regfree(&reg);
 		return ret;
 	}
 
 	memcpy(buf, source.c_str() + store[0].rm_so, store[0].rm_eo - store[0].rm_so);
 	path_ = buf;
-
+	
 	if (path_.empty()) {
 		ret = NOTEXIST;
+	}
+	
+	if (path_[path_.length() - 1] == '?') {
+		path_ = path_.substr(0, path_.length() - 1);
 	}
 
 	regfree(&reg);
@@ -151,7 +160,6 @@ int HttpUrl::GetQueryString(const string &source) {
 	char buf[1024] = {0};
 	regex_t reg;
 
-	regfree(&reg);
 	if ( (ret = regcomp(&reg, querystring_regex.c_str(), REG_EXTENDED)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
 		ERROR("Failed to Compile Regular Expression, %s\n", buf);
@@ -161,16 +169,17 @@ int HttpUrl::GetQueryString(const string &source) {
 
 	if ( (ret = regexec(&reg, source.c_str(), 1, store, 0)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
-		ERROR("Failed to Compile Regular Expression, %s\n", buf);
+		ERROR("Failed to Execute Regular Expression, %s\n", buf);
 		regfree(&reg);
 		return ret;
 	}
 
 	memcpy(buf, source.c_str() + store[0].rm_so, store[0].rm_eo - store[0].rm_so);
-	querystring_ = buf;
-	if (querystring_.empty()) {
+	string querystring = buf;
+	if (querystring.empty()) {
 		ret = NOTEXIST;
 	}
+	querystring_ = querystring.substr(1);
 
 	regfree(&reg);
 	return ret;
@@ -183,8 +192,7 @@ int HttpUrl::GetPort(const string &source) {
 	regex_t reg;
 	string portstr;
 
-	regfree(&reg);
-	if ( (ret = regcomp(&reg, port_regex.c_str(), REG_EXTENDED)) != 0) {
+	if ( (ret = regcomp(&reg, port_get_regex.c_str(), REG_EXTENDED)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
 		ERROR("Failed to Compile Regular Expression, %s\n", buf);
 		regfree(&reg);
@@ -193,7 +201,7 @@ int HttpUrl::GetPort(const string &source) {
 
 	if ( (ret = regexec(&reg, source.c_str(), 1, store, 0)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
-		ERROR("Failed to Compile Regular Expression, %s\n", buf);
+		ERROR("Failed to Execute Regular Expression, %s\n", buf);
 		regfree(&reg);
 		return ret;
 	}
