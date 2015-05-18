@@ -114,14 +114,12 @@ bool str_match_filter(const string &regex, const string &source) {
 	int ret = 0;
 	if ((ret = regcomp(&reg, regex.c_str(), REG_EXTENDED)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
-		ERROR("Failed to Compile Regular Expression, %s", buf);
 		regfree(&reg);
 		return false;
 	}
 
 	if ((ret = regexec(&reg, source.c_str(), 0, NULL, 0)) != 0) {
 		regerror(ret, &reg, buf, sizeof(buf));
-		ERROR("Failed to Execute Regular Expression, %s", buf);
 		regfree(&reg);
 		return false;
 	}
