@@ -18,7 +18,6 @@ int HeartBeat::FsmType() {
 Status_t HeartBeat::AliveResponse(void *smessage) {
 	SMessage *pmsg = (SMessage *)smessage;
 	
-	SMessage response_;	
 	Header *header = response_.mutable_header();
 	Body *body = response_.mutable_body();
 	*header = CopyRequestHeader(pmsg->header());
