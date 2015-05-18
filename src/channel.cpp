@@ -15,6 +15,8 @@ int CheckConnectTimeoutCb(void *data) {
 		delete sk;
 		sk = NULL;
 		return -1;
+	} else {
+		INFO("Connection To %s:%d Enstablished", iptostr(sk->GetPeerAddr().sin_addr.s_addr), sk->GetPeerAddr().sin_port);
 	}
 	return 0;
 }

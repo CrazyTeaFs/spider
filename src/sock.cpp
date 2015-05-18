@@ -335,7 +335,7 @@ int Socket::Write() {
 			bytes += len;
 			w_offset_ += len;
 			append_offset_ -= len;
-			// All Date Sent
+			// All Data Sent
 			if (append_offset_ <= 0) {
 				ClearWBuffer();
 				break;
