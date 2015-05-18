@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <regex.h>
 
 using namespace std;
 
@@ -106,3 +107,25 @@ string generate_key(int digit) {
     return result;
 }
 
+// Wrapper: Check Whether A String Matches A Specified Regular Expression
+bool str_match_filter(const string &regex, const string &source) {
+	regex_t reg;
+	char buf[1024] = {0};
+	int ret = 0;
+	if ((ret = regcomp(&reg, regex.c_str(), REG_EXTENDED)) != 0) {
+		regerror(ret, &reg, buf, sizeof(buf));
+		ERROR("Failed to Compile Regular Expression, %s", buf);
+		regfree(&reg);
+		return false;
+	}
+
+	if ((ret = regexec(&reg, source.c_str(), 0, NULL, 0)) != 0) {
+		regerror(ret, &reg, buf, sizeof(buf));
+		ERROR("Failed to Execute Regular Expression, %s", buf);
+		regfree(&reg);
+		return false;
+	}
+	
+	regfree(&reg);
+	return true;
+}

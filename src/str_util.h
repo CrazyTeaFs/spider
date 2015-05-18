@@ -16,4 +16,7 @@ char* iptostr(unsigned host_ip);
 // Generate A Random String
 std::string generate_key(int digit);
 
+// Wrapper: Check Whether A String Matches A Specified Regular Expression
+bool str_match_filter(const std::string &regex, const std::string &source);
+
 #endif
