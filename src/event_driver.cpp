@@ -8,8 +8,7 @@ using namespace std;
 static int create_timerfd() {
 	int timerfd = timerfd_create(CLOCK_REALTIME, TFD_NONBLOCK | TFD_CLOEXEC);
 	if (timerfd < 0) {
-		printf("Failed In timerfd_create\n");
-		
+		ERROR("Failed In timerfd_create");
   	}
   	return timerfd;
 }
@@ -69,7 +68,6 @@ int EventDriver::AddTimer(int sec, int msec, bool once_only, int (*callback) (vo
 	int ret = 0;
 	int fd = create_timerfd();
 	if (fd < 0) {
-		printf("Failed To Create Timer Fd\n");
 		ALERT("Failed To Create Timer Fd");
 		return fd;
 	}
@@ -90,7 +88,6 @@ int EventDriver::AddTimer(int sec, int msec, bool once_only, int (*callback) (vo
 	ret = epoll_ctl(epfd_, EPOLL_CTL_ADD, fd, &event);
 	
 	if (ret != 0) {
-		printf("Failed To Add Epoll Timer\n");
 		ALERT("Fail To Add Epoll Timer\n");
 		return ret;
 	}

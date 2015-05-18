@@ -132,17 +132,11 @@ int main(int argc , char **argv) {
 
 	int fd = socket(PF_INET, SOCK_STREAM, 0);
 
-	/*printf("Start LogBench: %s\n", now_str().c_str());
-	for (int i = 0; i < 1000000; i++) {
-		INFO("Hello World , Come On Bitch, Fuck you Don't Run Hahahaha, Sun of Beach");
-	}
-
-	printf("End LogBench: %s\n", now_str().c_str()); */
 	Socket *server = new Socket(fd);
 	server->BindListen(port);
 
 	printf("%s %s Server Start, pid %d, Listen Fd %d On TCP Port %d\n", now_str().c_str(), version, getpid(), server->GetFd(), port);
-	// Distach From Terminal
+	// Detach From Terminal
 	daemon(1, 1);
 	INFO("%s Server Start, pid %d, Listen Fd %d On TCP Port %d", version, getpid(), server->GetFd(), port);
 
@@ -153,7 +147,6 @@ int main(int argc , char **argv) {
 	driver->AddEvent(fd, server, EDGE_TRIGGER);
 	// Every 100ms Flush Log Cache Buffer
 	driver->AddTimer(0, 100, false, flush_log, NULL);
-	//driver->AddTimer(0, 500, false, bar, NULL);
 
 	driver->StartLoop();
 
