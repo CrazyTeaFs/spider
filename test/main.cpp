@@ -96,7 +96,7 @@ google::protobuf::Message* CreateMessage(const std::string &name) {
 
 int main(int argc, char **argv) {
 	if (argc != 3) {
-		printf("usage: %s ip port\n", basename(argv[0]));
+		printf("usage: %s ip port\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
