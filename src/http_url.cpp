@@ -1,5 +1,6 @@
 #include <regex.h> 
 #include "http_url.h"
+#include "str_util.h"
 
 using namespace std;
 
@@ -232,30 +233,15 @@ void HttpUrl::ParseQueryString(const string &querystring) {
 		return;
 	}
 
-	string keys = querystring.substr(1);
-	vector <string> store;
-
-	char start[1024] = {0}; 
-	strncpy(start, keys.c_str(), 1024);
-	char *tokenptr = strtok(start, "&");	
-	while (tokenptr != NULL) {
-		string tmp = tokenptr;
-		store.push_back(tmp);
-		tokenptr = strtok(NULL, "&");
-	}
-
-	for (size_t i = 0; i < store.size(); i++) {
-		string equation = store[i];
-		char *l;
-		char *r;
-		char begin[1024];
-		strncpy(begin, equation.c_str(), 1024);
-		l = strtok(begin, "=");
-		r = strtok(NULL, "=");
-		string left = l;
-		string right = r;
-		query_map_.insert(make_pair(left, right));		
-	}
+	vector<string> segements = split(querystring, '&');
 	
+	for (size_t i = 0; i < segements.size(); i++) {
+		string equation = segements[i];
+		vector<string> key = split(equation, '=');
+		string left = key[0];
+		string right = key[1];
+		query_map_.insert(make_pair(left, right));
+	}
+
 	return;
 }
