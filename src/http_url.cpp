@@ -180,11 +180,13 @@ int HttpUrl::GetQueryString(const string &source) {
 	}
 
 	memcpy(buf, source.c_str() + store[0].rm_so, store[0].rm_eo - store[0].rm_so);
-	string querystring = buf;
-	if (querystring.empty()) {
-		ret = NOTEXIST;
+	querystring_ = buf;
+	if (querystring_.empty() && querystring_.length() == 1) {
+		regfree(&reg);
+		return NOTEXIST;
 	}
-	querystring_ = querystring.substr(1);
+	
+	querystring_ = querystring_.substr(1);
 
 	regfree(&reg);
 	return ret;
