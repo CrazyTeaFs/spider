@@ -182,7 +182,7 @@ int HttpUrl::GetQueryString(const string &source) {
 
 	memcpy(buf, source.c_str() + store[0].rm_so, store[0].rm_eo - store[0].rm_so);
 	querystring_ = buf;
-	if (querystring_.empty() && querystring_.length() == 1) {
+	if (querystring_.empty()) {
 		regfree(&reg);
 		return NOTEXIST;
 	}
