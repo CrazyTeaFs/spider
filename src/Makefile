@@ -1,5 +1,5 @@
-SRCEXTS = .c .cpp .c++ .cxx 
-HDREXTS = .h .hpp .h++ .hxx
+SRCEXTS = .c .cc .cpp .c++ .cxx 
+HDREXTS = .h .hh .hpp .h++ .hxx
 CC = gcc
 CXX = g++
 CTAGS = ctags
