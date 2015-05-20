@@ -138,6 +138,8 @@ private:
 public:	
 	static std::map<sockaddr_in, Socket *> conn_ctrl_;
 
+	static std::map<sockaddr_in, Socket *> client_ctrl_;
+
 private:
 	int sockfd_;
 	sockaddr_in peer_;

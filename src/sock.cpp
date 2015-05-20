@@ -17,6 +17,7 @@ using namespace spider;
 
 // Collect Current TCP Connections
 map<sockaddr_in, Socket *> Socket::conn_ctrl_;
+map<sockaddr_in, Socket *> Socket::client_ctrl_;
 
 static int on_message(void *buffer, int size, Socket *sk) {
 	google::protobuf::Message *msg_ptr = CreateMessage("spider.SMessage");
@@ -70,7 +71,10 @@ void Socket::Close() {
 	
 	if (conn_ctrl_.find(peer_) != conn_ctrl_.end()) {
 		conn_ctrl_.erase(peer_);
-		
+	}
+
+	if (client_ctrl_.find(peer_) != client_ctrl_.end()) {
+		client_ctrl_.erase(peer_);
 	}
 }
 

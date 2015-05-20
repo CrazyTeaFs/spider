@@ -25,17 +25,21 @@ public:
 	}
 	
 	// As A Client Launch A Connection
-	int OnConnect(const std::string &ip, int port, int timeout = 10);
+	int OnConnect(Socket* sk, const std::string &ip, int port, int timeout = 10);
 
 	int SendRequest(const std::string &ip, int port, void *message, size_t len);
 
 	int SendResponse(SMessage *msg);
 
-	int SendMessage(void *message, size_t len);
+	int SendMessage(Socket* sk, void *message, size_t len);
 	
 	void SetSocket(Socket *sk) {
 		sk_ = sk;
 	}
+
+	Socket* GetClientSocket(const std::string &ip, int port); 
+
+	Socket* NewClientSocket(const std::string &ip, int port); 
 
 private:
 	Socket* sk_;
