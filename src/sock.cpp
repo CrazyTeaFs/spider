@@ -16,7 +16,7 @@ using namespace std;
 using namespace spider;
 
 // Collect Current TCP Connections
-map<sockaddr_in, Socket *> gmap_tcpdest;
+map<sockaddr_in, Socket *> Socket::conn_ctrl_;
 
 static int on_message(void *buffer, int size, Socket *sk) {
 	google::protobuf::Message *msg_ptr = CreateMessage("spider.SMessage");
@@ -68,8 +68,8 @@ void Socket::Close() {
 		INFO("Close Connection With Client %s:%d", iptostr(peer_.sin_addr.s_addr), ntohs(peer_.sin_port));
 	}
 	
-	if (gmap_tcpdest.find(peer_) != gmap_tcpdest.end()) {
-		gmap_tcpdest.erase(peer_);
+	if (conn_ctrl_.find(peer_) != conn_ctrl_.end()) {
+		conn_ctrl_.erase(peer_);
 		
 	}
 }
@@ -169,7 +169,7 @@ int Socket::Accept(int listen_fd) {
 			peer->SetPeerAddr(peer_addr);
 			EventDriver::Instance()->AddEvent(peer_fd, peer);
 			// Record Socket's Peer Address
-			gmap_tcpdest.insert(make_pair(peer_addr, peer));
+			conn_ctrl_.insert(make_pair(peer_addr, peer));
 		}
 	}
 
@@ -305,7 +305,7 @@ int Socket::Write() {
 
 		INFO("Connection With Server %s:%d Enstablished", iptostr(peer_.sin_addr.s_addr), peer_.sin_port);
 		state_ = SOCK_TCP_ENSTABLISHED;
-		gmap_tcpdest.insert(make_pair(peer_, this));
+		conn_ctrl_.insert(make_pair(peer_, this));
 	}
 
 	// No Data To Send

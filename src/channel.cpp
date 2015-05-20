@@ -4,9 +4,6 @@
 
 using namespace std;
 
-extern map<sockaddr_in, Socket *> gmap_tcpdest;
-extern char *message_check_key;
-
 int CheckConnectTimeoutCb(void *data) {
 	Socket *sk = (Socket *)data;
 	if (sk->State() != SOCK_TCP_ENSTABLISHED) {
@@ -46,8 +43,8 @@ int Channel::SendRequest(const string &ip, int port, void *message, size_t len) 
 	address.sin_port = htons(port);
 
 	// Check If We Have Already Have A TCP Connection To Peer
-	map<sockaddr_in, Socket *>::iterator it = gmap_tcpdest.find(address);
-	if (it != gmap_tcpdest.end()) {
+	map<sockaddr_in, Socket *>::iterator it = Socket::conn_ctrl_.find(address);
+	if (it != Socket::conn_ctrl_.end()) {
 		sk_ = it->second; 	
 		SendMessage(message, len);
 	} else {

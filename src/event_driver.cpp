@@ -82,8 +82,6 @@ int EventDriver::AddTimer(int sec, int msec, bool once_only, int (*callback) (vo
 	epoll_event event;
 	event.data.fd = fd;
 	event.events = EPOLLIN | EPOLLET; 
-	// Timer Use Level Trigger
-//	event.events = EPOLLIN; 
 
 	ret = epoll_ctl(epfd_, EPOLL_CTL_ADD, fd, &event);
 	

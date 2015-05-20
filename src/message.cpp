@@ -3,8 +3,6 @@
 
 using namespace std;
 
-//const char *message_check_key = "0c675432-fbb0-11e4-acf8-60eb69eac53d";
-
 // Note: Don't Forget Delete Pointer.
 google::protobuf::Message* CreateMessage(const std::string &name) {
 	google::protobuf::Message* message = NULL;

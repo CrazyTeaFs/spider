@@ -134,7 +134,10 @@ private:
 	void SetPeerAddr(sockaddr_in address) {
 		peer_ = address;
 	}
-	
+
+public:	
+	static std::map<sockaddr_in, Socket *> conn_ctrl_;
+
 private:
 	int sockfd_;
 	sockaddr_in peer_;
