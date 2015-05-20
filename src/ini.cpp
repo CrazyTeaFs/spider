@@ -65,8 +65,8 @@ int Ini::LoadFile(const string &filename) {
     multimap <string, string> node;
 
     while (fgets(line, MAXLINE, fp) != NULL) {
-
-        char *p, *section; 
+        char *p = NULL; 
+		char *section = NULL; 
         char key_name[MAXLINE] = {0};
         char value_name[MAXLINE] = {0};
 
