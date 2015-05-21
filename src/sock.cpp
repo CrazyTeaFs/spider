@@ -286,7 +286,7 @@ int Socket::Read() {
 		}
 	}	
 
-	// User Can Check Return Value To Determine Where Connection Is OK
+	// User Can Check Return Value To Determine Whether The Connection Is OK
 	return bytes;
 }
 
