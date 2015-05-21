@@ -155,7 +155,6 @@ void EventDriver::StartLoop(int timeout_usec) {
 			if (events[i].events & EPOLLRDHUP) {
 				if ((it = event_container_.find(event_fd)) != event_container_.end()) {
 					DelEvent(event_fd);
-					it->second->Close();
 				}
 			}
 			// Recieve New Data

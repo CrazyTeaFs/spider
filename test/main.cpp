@@ -74,7 +74,7 @@ string now_str() {
     struct tm pnow;
     gettimeofday(&now, NULL);
     localtime_r(&now.tv_sec, &pnow);
-	snprintf(now_str, sizeof(now_str) - 1, "%02d:%02d:%02d %06ld", pnow.tm_hour, pnow.tm_min, pnow.tm_sec, now.tv_usec);
+	snprintf(now_str, sizeof(now_str) - 1, "%02d:%02d:%02d %06d", pnow.tm_hour, pnow.tm_min, pnow.tm_sec, now.tv_usec);
 
     return string(now_str);
 }
@@ -117,11 +117,16 @@ int main(int argc, char **argv) {
 	}
 
 	printf("%s Finish Ping-Pong Alive BenchMark\n", now_str().c_str());
+
+	while (1) {
+		sleep(300);
+	}
+
 	return 0;
 }
 
 void *benchmark(void* args) {
-	const char *ip = "127.0.0.1";
+	const char *ip = "192.168.144.121";
 	int port = 8888;
 	struct sockaddr_in address;
 	bzero(&address, sizeof(address));
@@ -141,7 +146,7 @@ void *benchmark(void* args) {
 	}
 
 	printf("%s Now Start Ping-Pong Alive BenchMark\n", now_str().c_str());
-	for (int i = 0; i < 10000; i++) {
+	for (int i = 0; i < 10; i++) {
 		SMessage *message = new SMessage;
 		Header *head = new Header;
 		head->set_flow_no(1234);
