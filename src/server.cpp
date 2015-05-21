@@ -147,8 +147,8 @@ int main(int argc , char **argv) {
 
 	printf("%s %s Server Start, pid %d, Listen Fd %d On TCP Port %d\n", now_str().c_str(), version, getpid(), server->GetFd(), port);
 	// Detach From Terminal
-	daemon(1, 1);
 	INFO("%s Server Start, pid %d, Listen Fd %d On TCP Port %d", version, getpid(), server->GetFd(), port);
+	daemon(1, 1);
 
 	EventDriver *driver = EventDriver::Instance();
 	driver->CreateDriver();
@@ -157,6 +157,8 @@ int main(int argc , char **argv) {
 	driver->AddEvent(fd, server, EDGE_TRIGGER);
 
 	init_timer_callbacks(driver);
+
+	driver->StartLoop();	
 
 	delete server;
 	delete driver;
