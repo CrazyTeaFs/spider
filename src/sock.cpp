@@ -409,7 +409,7 @@ int Socket::IdleCtrlCb(void *data) {
 
 	// Please Make Sure MAX_IDLE_TIME Is Larger The FSM Timeout. Otherwise, FSM Will Never Know It's sk_ Memeber Being Deleted
 	INFO("Current Connections From:%d, To:%d", conn_ctrl_.size(), client_ctrl_.size());
-	for (it = conn_ctrl_.begin(); it != conn_ctrl_.end(); it++) {
+	for (it = conn_ctrl_.begin(); it != conn_ctrl_.end(); ) {
 		INFO("Check Connection From %s:%d", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), ntohs(it->second->GetPeerAddr().sin_port));
 		if (now - it->second->GetLastTimeStamp() >= MAX_IDLE_TIME) {
 			INFO("Connection From %s:%d Is Idle For Too Long, Will Be Kicked", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), 
@@ -417,14 +417,16 @@ int Socket::IdleCtrlCb(void *data) {
 			if (it->second->State() == SOCK_TCP_ENSTABLISHED) {
 				INFO("Connection From %s:%d Send Side Will Be Shutdown", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), 
 					ntohs(it->second->GetPeerAddr().sin_port));
-				it->second->ShutdownW();
+				(it++)->second->ShutdownW();
 			} else if (it->second->State() == SOCK_SHUT_WRITE) {
 				INFO("Connection From %s:%d Will Be Closed", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), 
 					ntohs(it->second->GetPeerAddr().sin_port));
 				it->second->ShutdownAll();
-				it->second->Close();
-				EventDriver::Instance()->DelEvent(it->second->GetFd());
+				// Avoid Invalid Iterator
+				EventDriver::Instance()->DelEvent((it++)->second->GetFd());
 			}
+		} else {
+			it++;
 		}
 	}
 
