@@ -407,7 +407,9 @@ int Socket::IdleCtrlCb(void *data) {
 	map<sockaddr_in, Socket *>::iterator it; 
 	int now = time(NULL);
 
+	INFO("Current Connections From:%d, To:%d", conn_ctrl_.size(), client_ctrl_.size());
 	for (it = conn_ctrl_.begin(); it != conn_ctrl_.end(); it++) {
+		INFO("Check Connection From %s:%d", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
 		if (now - it->second->GetLastTimeStamp() >= MAX_IDLE_TIME) {
 			INFO("Connection From %s:%d Is Idle For Too Long, Will Be Kicked", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
 			if (it->second->State() == SOCK_TCP_ENSTABLISHED) {
@@ -422,6 +424,7 @@ int Socket::IdleCtrlCb(void *data) {
 	}
 
 	for (it = client_ctrl_.begin(); it != client_ctrl_.end(); it++) {
+		INFO("Check Connection To %s:%d", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
 		if (now - it->second->GetLastTimeStamp() >= MAX_IDLE_TIME) {
 			INFO("Connection To %s:%d Is Idle For Too Long, Will Be Kicked", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
 			it->second->Close();

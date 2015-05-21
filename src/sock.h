@@ -17,7 +17,7 @@
 #define SOCKET_BUFFER_SIZE (20*1024)
 #define INVALID_MESSAGE -1
 
-#define MAX_IDLE_TIME (1800)
+#define MAX_IDLE_TIME (60)
 
 typedef enum {
 	SOCK_IDLE,
@@ -162,23 +162,39 @@ private:
 };
 
 static inline bool operator==(const sockaddr_in &foo, const sockaddr_in &bar) {
-	return (foo.sin_addr.s_addr == bar.sin_addr.s_addr);
+	return ((foo.sin_addr.s_addr == bar.sin_addr.s_addr) && (foo.sin_port == bar.sin_port));
 }
 
 static inline bool operator>(const sockaddr_in &foo, const sockaddr_in &bar) {
-	return (foo.sin_addr.s_addr > bar.sin_addr.s_addr);
+	if (foo.sin_addr.s_addr != bar.sin_addr.s_addr) {
+		return (foo.sin_addr.s_addr > bar.sin_addr.s_addr);
+	} else {
+		return (foo.sin_port > bar.sin_port);
+	}
 }
 
 static inline bool operator<(const sockaddr_in &foo, const sockaddr_in &bar) {
-	return (foo.sin_addr.s_addr < bar.sin_addr.s_addr);
+	if (foo.sin_addr.s_addr != bar.sin_addr.s_addr) {
+		return (foo.sin_addr.s_addr < bar.sin_addr.s_addr);
+	} else {
+		return (foo.sin_port < bar.sin_port);
+	}
 }
 
 static inline bool operator>=(const sockaddr_in &foo, const sockaddr_in &bar) {
-	return (foo.sin_addr.s_addr >= bar.sin_addr.s_addr);
+	if (foo.sin_addr.s_addr != bar.sin_addr.s_addr) {
+		return (foo.sin_addr.s_addr >= bar.sin_addr.s_addr);
+	} else {
+		return (foo.sin_port >= bar.sin_port);
+	}
 }
 
 static inline bool operator<=(const sockaddr_in &foo, const sockaddr_in &bar) {
-	return (foo.sin_addr.s_addr <= bar.sin_addr.s_addr);
+	if (foo.sin_addr.s_addr != bar.sin_addr.s_addr) {
+		return (foo.sin_addr.s_addr <= bar.sin_addr.s_addr);
+	} else {
+		return (foo.sin_port <= bar.sin_port);
+	}
 }
 
 #endif 
