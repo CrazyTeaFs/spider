@@ -57,6 +57,7 @@ void EventDriver::ModifyEvent(int fd, int active_type) {
 	epoll_ctl(epfd_, EPOLL_CTL_MOD, fd, &event);
 }
 
+// The Only Way To Delete A Socket
 void EventDriver::DelEvent(int fd) {
 	epoll_ctl(epfd_, EPOLL_CTL_DEL, fd, NULL);
 	delete event_container_[fd];
@@ -154,6 +155,7 @@ void EventDriver::StartLoop(int timeout_usec) {
 			// Connection Closed By Peer
 			if (events[i].events & EPOLLRDHUP) {
 				if ((it = event_container_.find(event_fd)) != event_container_.end()) {
+					it->second->Close();
 					DelEvent(event_fd);
 				}
 			}

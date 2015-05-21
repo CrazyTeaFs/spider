@@ -17,7 +17,8 @@
 #define SOCKET_BUFFER_SIZE (20*1024)
 #define INVALID_MESSAGE -1
 
-#define MAX_IDLE_TIME (60)
+// 15 Minutes
+#define MAX_IDLE_TIME (900)
 
 typedef enum {
 	SOCK_IDLE,
@@ -114,6 +115,10 @@ class Socket
 	int GetLastTimeStamp() {
 		return last_io_time_;
 	}
+
+	bool IsConnected() {
+		return (state_ == SOCK_TCP_ENSTABLISHED);
+	}	
 
 	static int IdleCtrlCb (void *);
 	

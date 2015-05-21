@@ -37,6 +37,10 @@ public:
 		sk_ = sk;
 	}
 
+	Socket* GetSocket() {
+		return sk_;
+	}
+
 	Socket* GetClientSocket(const std::string &ip, int port); 
 
 	Socket* NewClientSocket(const std::string &ip, int port); 

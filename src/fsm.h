@@ -14,6 +14,8 @@
 	virtual ~classname();			            
 #endif
 
+#define FSM_STATE_TIMEOUT (15)
+
 typedef enum {
 	FSM_NOTEXIST = -3,
 	FSM_TIMEOUT = -2,
@@ -44,10 +46,6 @@ public:
 	virtual int FsmType() = 0;
 
     static int SetGlobalStateName(int type, int state, state_cb_t callback);
-
-protected:
-	// <machine_id, <state, callback>>
-//	static std::map<int, std::map<int, state_cb_t> > StateCallbackMap();
 
 private:
 	int machine_id_;

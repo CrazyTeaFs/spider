@@ -38,3 +38,20 @@ int FsmContainer::DelStateMachine(int machine_id) {
 Fsm* FsmContainer::NewStateMachine(int type) {
 	return FsmFactory::Instance().NewFsm(type);
 }
+
+void FsmContainer::HandleTimeoutCb() {
+	int now = time(NULL);
+	map <int, Fsm *>::iterator it; 
+
+	for (it = fsm_container_.begin(); it != fsm_container_.end(); it++) {
+		if (now - it->second->GetSocket()->GetLastTimeStamp() >= FSM_STATE_TIMEOUT) {
+			ALERT("Fsm Id %d Timeout, Will Be Deleted");
+			delete it->second;
+		}
+	}
+}
+
+int FsmTimeoutCb(void *data) {
+	FsmContainer::Instance()->HandleTimeoutCb();
+	return 0;
+}

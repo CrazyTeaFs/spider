@@ -6,6 +6,8 @@
 #include "sock.h"
 #include "fsm.h"
 
+int FsmTimeoutCb(void *data);
+
 class FsmContainer {
 public:
 	~FsmContainer();
@@ -17,6 +19,8 @@ public:
 	Fsm* NewStateMachine(int type);
 
 	int DelStateMachine(int machine_id);
+
+	void HandleTimeoutCb();
 
 	static FsmContainer* Instance();
 

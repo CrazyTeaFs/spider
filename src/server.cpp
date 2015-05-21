@@ -8,6 +8,7 @@
 #include "server.h"
 #include "event_driver.h"
 #include "timer.h"
+#include "fsm_container.h"
 #include "log.h"
 #include "ini.h"
 #include "message.pb.h"
@@ -121,6 +122,15 @@ int init_config(int &port) {
 	return ret;
 }
 
+void init_timer_callbacks(EventDriver *driver) {
+	// Every 100ms Flush Log Cache Buffer
+	driver->AddTimer(0, 100, false, flush_log, NULL);
+	// Every 15 Minutes Kick Out Idle Connection
+	driver->AddTimer(MAX_IDLE_TIME, 0, false, Socket::IdleCtrlCb, NULL);
+	// Every 500ms Inspect FSM Timeout
+	driver->AddTimer(0, 500, false, FsmTimeoutCb, NULL);
+}
+
 int main(int argc , char **argv) {
 	int port = 0;
 	init_config(port);
@@ -145,12 +155,8 @@ int main(int argc , char **argv) {
 
 	// Listen Fd Use Edge-Trigger
 	driver->AddEvent(fd, server, EDGE_TRIGGER);
-	// Every 100ms Flush Log Cache Buffer
-	driver->AddTimer(0, 100, false, flush_log, NULL);
 
-	driver->AddTimer(60, 0, false, Socket::IdleCtrlCb, NULL);
-
-	driver->StartLoop();
+	init_timer_callbacks(driver);
 
 	delete server;
 	delete driver;
