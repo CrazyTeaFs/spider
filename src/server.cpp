@@ -125,8 +125,8 @@ int init_config(int &port) {
 void init_timer_callbacks(EventDriver *driver) {
 	// Every 100ms Flush Log Cache Buffer
 	driver->AddTimer(0, 100, false, flush_log, NULL);
-	// Every 15 Minutes Kick Out Idle Connection
-	driver->AddTimer(MAX_IDLE_TIME, 0, false, Socket::IdleCtrlCb, NULL);
+	// Every 5 Minutes Kick Out Idle Connection
+	driver->AddTimer(300, 0, false, Socket::IdleCtrlCb, NULL);
 	// Every 500ms Inspect FSM Timeout
 	driver->AddTimer(0, 500, false, FsmTimeoutCb, NULL);
 }
