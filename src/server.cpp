@@ -126,7 +126,7 @@ void init_timer_callbacks(EventDriver *driver) {
 	// Every 100ms Flush Log Cache Buffer
 	driver->AddTimer(0, 100, false, flush_log, NULL);
 	// Every 5 Minutes Kick Out Idle Connection
-	driver->AddTimer(300, 0, false, Socket::IdleCtrlCb, NULL);
+	driver->AddTimer(60, 0, false, Socket::IdleCtrlCb, NULL);
 	// Every 500ms Inspect FSM Timeout
 	driver->AddTimer(0, 500, false, FsmTimeoutCb, NULL);
 }
@@ -135,8 +135,8 @@ int main(int argc , char **argv) {
 	int port = 0;
 	init_config(port);
 	// When Segmentation Fault Occurs, Print Diagnose Information
-	signal(SIGSEGV, dump_stacktrace);
-	signal(SIGABRT, dump_stacktrace);
+//	signal(SIGSEGV, dump_stacktrace);
+//	signal(SIGABRT, dump_stacktrace);
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGINT, ctrl_c_handler);
 
