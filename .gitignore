@@ -29,6 +29,7 @@
 core*
 spider-server
 test/client
+*dSYM
 
 # Tmp
 *.swp
