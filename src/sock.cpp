@@ -309,7 +309,7 @@ int Socket::Write() {
 
 		INFO("Connection With Server %s:%d Enstablished", iptostr(peer_.sin_addr.s_addr), peer_.sin_port);
 		state_ = SOCK_TCP_ENSTABLISHED;
-		conn_ctrl_.insert(make_pair(peer_, this));
+		client_ctrl_.insert(make_pair(peer_, this));
 	}
 
 	// No Data To Send

@@ -53,7 +53,6 @@ Socket* Channel::NewClientSocket(const std::string &ip, int port) {
 	// Set 10 Seconds Timeout, Add The Socket To Event Poller, OnConnect Will SetPeerAddr
 	ret = OnConnect(sk, ip, port, 10);
 	if (ret > 0) {
-		Socket::client_ctrl_.insert(make_pair(address, sk));	
 		return sk;
 	} else {
 		return NULL;
