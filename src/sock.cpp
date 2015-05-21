@@ -401,3 +401,31 @@ int Socket::GetTcpOutBuffsize() {
 	}
 	return size;
 }
+
+// Kickout Long Time Idle Connections
+int Socket::IdleCtrlCb(void *data) {
+	map<sockaddr_in, Socket *>::iterator it; 
+	int now = time(NULL);
+
+	for (it = conn_ctrl_.begin(); it != conn_ctrl_.end(); it++) {
+		if (now - it->second->GetLastTimeStamp() >= MAX_IDLE_TIME) {
+			INFO("Connection From %s:%d Is Idle For Too Long, Will Be Kicked", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
+			if (it->second->State() == SOCK_TCP_ENSTABLISHED) {
+				INFO("Connection From %s:%d Send Side Will Be Shutdown", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
+				it->second->ShutdownW();
+			} else if (it->second->State() == SOCK_SHUT_WRITE) {
+				INFO("Connection From %s:%d Will Be Closed", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
+				it->second->ShutdownAll();
+				it->second->Close();
+			}
+		}
+	}
+
+	for (it = client_ctrl_.begin(); it != client_ctrl_.end(); it++) {
+		if (now - it->second->GetLastTimeStamp() >= MAX_IDLE_TIME) {
+			INFO("Connection To %s:%d Is Idle For Too Long, Will Be Kicked", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
+			it->second->Close();
+		}
+	}
+	return 0;
+}

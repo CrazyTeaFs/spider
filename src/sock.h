@@ -17,6 +17,8 @@
 #define SOCKET_BUFFER_SIZE (20*1024)
 #define INVALID_MESSAGE -1
 
+#define MAX_IDLE_TIME (1800)
+
 typedef enum {
 	SOCK_IDLE,
 	SOCK_LISTENNING,
@@ -112,6 +114,8 @@ class Socket
 	int GetLastTimeStamp() {
 		return last_io_time_;
 	}
+
+	static int IdleCtrlCb (void *);
 	
 private:
 	// Non-Blocking I/O

@@ -148,6 +148,8 @@ int main(int argc , char **argv) {
 	// Every 100ms Flush Log Cache Buffer
 	driver->AddTimer(0, 100, false, flush_log, NULL);
 
+	driver->AddTimer(1800, 0, false, Socket::IdleCtrlCb, NULL);
+
 	driver->StartLoop();
 
 	delete server;
