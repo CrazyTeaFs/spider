@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
 }
 
 void *benchmark(void* args) {
-	const char *ip = "192.168.144.121";
+	const char *ip = "192.168.1.13";
 	int port = 8888;
 	struct sockaddr_in address;
 	bzero(&address, sizeof(address));
@@ -146,7 +146,7 @@ void *benchmark(void* args) {
 	}
 
 	printf("%s Now Start Ping-Pong Alive BenchMark\n", now_str().c_str());
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 1000; i++) {
 		SMessage *message = new SMessage;
 		Header *head = new Header;
 		head->set_flow_no(1234);

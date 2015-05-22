@@ -431,13 +431,15 @@ int Socket::IdleCtrlCb(void *data) {
 	}
 
 	// We Need To Delete Client Socket Manually
-	for (it = client_ctrl_.begin(); it != client_ctrl_.end(); it++) {
+	for (it = client_ctrl_.begin(); it != client_ctrl_.end(); ) {
 		INFO("Check Connection To %s:%d", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), it->second->GetPeerAddr().sin_port);
 		if (now - it->second->GetLastTimeStamp() >= MAX_IDLE_TIME) {
 			INFO("Connection To %s:%d Is Idle For Too Long, Will Be Kicked", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), 
 				ntohs(it->second->GetPeerAddr().sin_port));
-			it->second->Close();
+			(it++)->second->Close();
 			EventDriver::Instance()->DelEvent(it->second->GetFd());
+		} else {
+			it++;
 		}
 	}
 	return 0;
