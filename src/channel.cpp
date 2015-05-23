@@ -9,7 +9,6 @@ int CheckConnectTimeoutCb(void *data) {
 	if (sk->State() != SOCK_TCP_ENSTABLISHED) {
 		ALERT("Connection To %s:%d Time Out", iptostr(sk->GetPeerAddr().sin_addr.s_addr), sk->GetPeerAddr().sin_port);
 		EventDriver::Instance()->DelEvent(sk->GetFd());
-		delete sk;
 		sk = NULL;
 		return -1;
 	} else {
