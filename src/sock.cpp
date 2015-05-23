@@ -408,7 +408,7 @@ int Socket::IdleCtrlCb(void *data) {
 	int now = time(NULL);
 
 	// Please Make Sure MAX_IDLE_TIME Is Larger The FSM Timeout. Otherwise, FSM Will Never Know It's sk_ Memeber Being Deleted
-	INFO("Current Connections From:%d, To:%d", conn_ctrl_.size(), client_ctrl_.size());
+	INFO("Current Connections, From:%d, To:%d", conn_ctrl_.size(), client_ctrl_.size());
 	for (it = conn_ctrl_.begin(); it != conn_ctrl_.end(); ) {
 		INFO("Check Connection From %s:%d", iptostr(it->second->GetPeerAddr().sin_addr.s_addr), ntohs(it->second->GetPeerAddr().sin_port));
 		if (now - it->second->GetLastTimeStamp() >= MAX_IDLE_TIME) {

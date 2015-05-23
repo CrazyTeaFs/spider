@@ -18,7 +18,7 @@
 #define INVALID_MESSAGE -1
 
 // 15 Minutes
-#define MAX_IDLE_TIME (90)
+#define MAX_IDLE_TIME (900)
 
 typedef enum {
 	SOCK_IDLE,
