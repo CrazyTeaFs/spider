@@ -7,10 +7,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <time.h>
-
 #include <string>
+#include <string.h>
 
-#include "server.h"
 #include "log.h"
 
 // 20KB InBuffer And OutBuffer
