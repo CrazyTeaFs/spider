@@ -1,1 +1,2 @@
 libmsg.a
+libbase.a
