@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
 }
 
 void *benchmark(void* args) {
-	const char *ip = "192.168.1.13";
+	const char *ip = "127.0.0.1";
 	int port = 8888;
 	struct sockaddr_in address;
 	bzero(&address, sizeof(address));

@@ -1,10 +1,10 @@
 SRC = *.cpp
 CC = g++
 CFLAG =-g -Wall 
-INCLUDE =-I../proto
+INCLUDE =-I../proto -I../base
 LINK =-L../lib
-LIB =../lib/libmsg.a
-LINKER =-lprotobuf -lmsg -lpthread
+LIB =../lib/libmsg.a ../lib/libase.a
+LINKER =-lprotobuf -lmsg -lbase -lpthread
 EXE =client
 all:
 	$(CC) $(INCLUDE) $(SRC) $(CFLAG) $(LINK) $(LINKER) -o $(EXE)
