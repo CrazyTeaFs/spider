@@ -30,6 +30,8 @@ public:
 
 	int SendResponse(SMessage *msg);
 
+	int SendWorker(SMessage *msg);
+
 	int SendMessage(Socket* sk, void *message, size_t len);
 	
 	void SetSocket(Socket *sk) {
