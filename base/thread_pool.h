@@ -2,19 +2,16 @@
 #define _THREADPOOL_H
 
 #include <list>
-#include <cstdio>
-#include <exception>
 #include <pthread.h>
 #include "locker.h"
+#include "thread_job.h"
 #include "log.h"
 
-template< typename T >
-class ThreadPool
-{
+class ThreadPool {
 public:
-    ThreadPool( int thread_number = 8, int max_requests = 10000 );
+    ThreadPool(int thread_number = 8, unsigned max_requests = 10000);
     ~ThreadPool();
-    bool Append( T* request );
+    bool Append(TJob *);
 
 private:
     static void* Worker( void* arg );
@@ -22,10 +19,11 @@ private:
 
 private:
     int thread_number_;
-    int max_requests_;
+    unsigned max_requests_;
     pthread_t* threads_;
-    std::list< T* > workqueue_;
-    locker queuelocker_;
+    std::list<TJob*> workqueue_;
+    Locker queuelocker_;
     bool stop_;
 };
+
 #endif
