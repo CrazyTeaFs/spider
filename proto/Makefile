@@ -1,6 +1,6 @@
 SRC = *.cc
 CC = g++
-CFLAG = -g -fPIC -ggdb -Wall -c 
+CFLAG = -g -ggdb -Wall -c 
 EXE = libmsg.a
 LIB = ../lib/
 all:

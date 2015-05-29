@@ -5,7 +5,7 @@ CXX = g++
 CTAGS = ctags
 
 INCLUDES = -I/usr/local/include -I/usr/include -I ../proto
-LIBS = -L/usr/local/lib -L/usr/lib -L../lib -L/usr/local/lib -lpthread -lrt -lprotobuf -lmsg
+LIBS = -L/usr/local/lib -L/usr/lib -L../lib -L/usr/local/lib -lpthread -lrt -static -lprotobuf -lmsg
 CFLAGS = -g -Wall -Wno-unused-result -O2 -c $(INCLUDES) -std=c++0x 
 OFLAGS = -g -Wall -O2 $(LIBS)
 
@@ -28,10 +28,10 @@ $(APP) : $(OBJS)
 	ar -crv $(APP) *.o
 
 %.o:%.cc
-	$(CXX) $(CFLAGS) -o $@ $<
+	$(CXX) $(CFLAGS) $(LIBS) -o $@ $<
 
 %.o:%.cpp
-	$(CXX) $(CFLAGS) -o $@ $<
+	$(CXX) $(CFLAGS) $(LIBS) -o $@ $<
 
 clean :
 	rm -Rf *.o core.* *.a

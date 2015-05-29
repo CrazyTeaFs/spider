@@ -4,8 +4,8 @@ CC = gcc
 CXX = g++
 CTAGS = ctags
 
-INCLUDES = -I/usr/local/include -I/usr/include -I ../proto
-LIBS = -L/usr/local/lib -L/usr/lib -L../lib -L/usr/local/lib -lpthread -lrt -lprotobuf -lmsg
+INCLUDES = -I/usr/local/include -I/usr/include -I ../proto -I ../base
+LIBS = -L/usr/local/lib -L/usr/lib -L../lib -L/usr/local/lib -lpthread -lrt  -lbase -lmsg -lprotobuf 
 CFLAGS = -g -Wall -Wno-unused-result -O2 -c $(INCLUDES) -std=c++0x 
 OFLAGS = -g -Wall -O2 $(LIBS)
 
