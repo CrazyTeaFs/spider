@@ -108,13 +108,8 @@ int Channel::SendMessage(Socket* sk, void *message, size_t len) {
 	return 0;
 }
 
-
 int Channel::SendWorker(SMessage *msg) {
 
 
 	return 0;
 }
-
-
-
-

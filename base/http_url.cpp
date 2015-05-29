@@ -9,9 +9,10 @@ const string hostname_regex = "([0-9a-zA-Z-]+\\.)+[0-9a-zA-Z]{2,6}";
 const string port_regex = "(:[0-9]{1,5})?";
 const string port_get_regex = ":[0-9]{1,5}";
 //Pattern                      /apple/banan_a/orange.html
-const string path_regex = "(\\/([[:alnum:]_-]+\\/)*([[:alnum:]_-]+\\.?[[:alnum:]_-])+)?";
+const string path_regex = "(\\/([[:alnum:]_-]*\\/)*([[:alnum:]_-]*\\.?[[:alnum:]_-])*)?";
 const string path_get_regex = "[^\\/]\\/([[:alnum:]_-]+\\/)*([[:alnum:]_-]+\\.?[[:alnum:]_-])+[\\?$]";
-const string querystring_regex = "(\\?((([[:alnum:]%_-]+=[[:alnum:]%\\._-]+)&)*([[:alnum:]%_-]+=[[:alnum:]%\\._-]+)))?$";
+const string querystring_regex = "(\\?((([[:alnum:]%_-]+=[[:alnum:]%\\._-]+)&)*([[:alnum:]%_-]+=[[:alnum:]%\\._-]+)))?(#.*)?$";
+const string querystring_get_regex = "(\\?((([[:alnum:]%_-]+=[[:alnum:]%\\._-]+)&)*([[:alnum:]%_-]+=[[:alnum:]%\\._-]+)))";
 
 int HttpUrl::Parse(const string &source) {  
 	int ret = 0;
