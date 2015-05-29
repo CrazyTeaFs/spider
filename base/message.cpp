@@ -33,15 +33,18 @@ Header CopyRequestHeader(const Header &header) {
 }
 
 // Use Header_t check_hash and hash Field to Check Whether Incoming Message Is Our Private Protocol Encoded Message
-bool ValidMessage(void *buffer, int len) {		
+bool ValidMessage(char *buffer, int len) {		
 	if (len < (int) sizeof(Header_t)) {
+		ERROR("Insufficient Length, Less Then Header");
 		return false;
 	}
 
 	Header_t *h = (Header_t *)buffer;
-	unsigned check_value = htonl(h->check_hash);
-
-	if (check_value != BKDRHash(string(h->hash))) {
+	unsigned crc32 = ntohl(h->data_crc32);
+	CCrc32 exam;
+	unsigned result = exam.Crc32((unsigned char *)(buffer + sizeof(Header_t)), (uint32_t)(len - sizeof(Header_t)));
+	if (crc32 != result) {
+		ERROR("Hash Check Failed, Value: %u, CheckValue %u", crc32, result);
 		return false;
 	}
 	

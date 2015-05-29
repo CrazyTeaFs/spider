@@ -241,7 +241,7 @@ int Socket::Read() {
 	}
 
 	if (bytes + r_offset_ > (int)sizeof(Header_t)) {
-		if (!ValidMessage((void *)inbuf_, bytes)) {
+		if (!ValidMessage((char *)inbuf_, bytes)) {
 			ERROR("Invalid Message Protocol, Discard Message");
 			ClearRBuffer();
 			return bytes;

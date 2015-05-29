@@ -16,12 +16,13 @@
 #include <google/protobuf/descriptor.h>
 
 #include "message.pb.h"
+#include "crc32.h"
 
 using namespace spider;
 using namespace std;
 
 #define VERIFY_DIGIT 10
-#define THREADS 50
+#define THREADS 1
 
 int const APLPHABET = 62;
 char letter[62] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'
@@ -30,8 +31,7 @@ char letter[62] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', '
 
 typedef struct {
 	unsigned length;
-	unsigned check_hash; 
-	char hash[VERIFY_DIGIT];
+	unsigned data_crc32; 
 } Header_t;
 
 // BKDR Hash 
@@ -74,7 +74,7 @@ string now_str() {
     struct tm pnow;
     gettimeofday(&now, NULL);
     localtime_r(&now.tv_sec, &pnow);
-	snprintf(now_str, sizeof(now_str) - 1, "%02d:%02d:%02d %06d", pnow.tm_hour, pnow.tm_min, pnow.tm_sec, now.tv_usec);
+	snprintf(now_str, sizeof(now_str) - 1, "%02d:%02d:%02d %06ld", pnow.tm_hour, pnow.tm_min, pnow.tm_sec, now.tv_usec);
 
     return string(now_str);
 }
@@ -146,7 +146,7 @@ void *benchmark(void* args) {
 	}
 
 	printf("%s Now Start Ping-Pong Alive BenchMark\n", now_str().c_str());
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 2; i++) {
 		SMessage *message = new SMessage;
 		Header *head = new Header;
 		head->set_flow_no(1234);
@@ -163,10 +163,11 @@ void *benchmark(void* args) {
 		void *buffer = malloc(length);
 		Header_t h;
 		h.length = htonl(length);
-		strncpy(h.hash, generate_key(VERIFY_DIGIT).c_str(), VERIFY_DIGIT);
-		h.check_hash = htonl(BKDRHash(string(h.hash)));
-		memcpy(buffer, &h, sizeof(Header_t));
+
 		message->SerializeToArray((char *)buffer + sizeof(Header_t), size);
+		CCrc32 exam;
+		h.data_crc32 = htonl(exam.Crc32((unsigned char*)((char *)buffer + sizeof(Header_t)), (uint32_t)message->ByteSize()));
+		memcpy(buffer, &h, sizeof(Header_t));
 
 		printf("Message: %s\n", message->DebugString().c_str());	
 		printf("Send %lu Bytes\n", send(sockfd, buffer, length, 0));

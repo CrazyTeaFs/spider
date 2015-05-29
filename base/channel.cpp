@@ -93,10 +93,10 @@ int Channel::SendResponse(SMessage *msg) {
 
 	Header_t *h = (Header_t *)(sk_->GetWriteIndex());
 	h->length = htonl(length);
-	strncpy(h->hash, generate_key(VERIFY_DIGIT).c_str(), VERIFY_DIGIT);
-	h->check_hash = htonl(BKDRHash(string(h->hash)));
 
 	msg->SerializeToArray(sk_->GetWriteIndex() + sizeof(Header_t), msg->ByteSize());
+	CCrc32 exam;
+	h->data_crc32 = htonl(exam.Crc32((unsigned char*)(sk_->GetWriteIndex() + sizeof(Header_t)), (uint32_t)msg->ByteSize()));
 	sk_->AppendSend(length);
 	
 	return 0;

@@ -26,11 +26,11 @@ int Fsm::OnMessage(SMessage *pmessage, Socket *sk) {
 	if (dst_fsm_id == 0)	{
 		// Create StateMachine
 		pstatemachine = FsmContainer::Instance()->NewStateMachine(message_type);
-		pstatemachine->SetSocket(sk);
 		if (pstatemachine == NULL) {
 			ERROR("Cannot Find StateMachine To Handle Incoming Request");
 			return FSM_NOTEXIST;
 		}
+		pstatemachine->SetSocket(sk);
 		Status_t ret = pstatemachine->InvokeCb(pmessage);
 		if (ret == FSM_ERROR || ret == FSM_FINISH) {
 			delete pstatemachine;

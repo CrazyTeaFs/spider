@@ -13,7 +13,7 @@
 #include "ini.h"
 #include "message.pb.h"
 
-static const char *version = "Spider0.1.0";
+static const char *version = "Spider-0.1.1";
 extern LogLevel Levelname[LOG_DEBUG + 1];
 
 using namespace std;
@@ -135,7 +135,7 @@ int main(int argc , char **argv) {
 	int port = 0;
 	init_config(port);
 	// When Segmentation Fault Occurs, Print Diagnose Information
-//	signal(SIGSEGV, dump_stacktrace);
+	signal(SIGSEGV, dump_stacktrace);
 //	signal(SIGABRT, dump_stacktrace);
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGINT, ctrl_c_handler);
