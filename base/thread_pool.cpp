@@ -6,6 +6,10 @@ ThreadPool::ThreadPool(int thread_number, unsigned max_requests):
         thread_number_(thread_number), max_requests_(max_requests), threads_(NULL), stop_(false)
 {
     threads_ = new pthread_t[thread_number];
+	if (threads_ == NULL) {
+		CRIT("Allocate Thread Pool Failure");
+		exit(EXIT_FAILURE);
+	}
 
     for (int i = 0; i < thread_number_; ++i) {
 		// Pass *this To Use Memeber Variables
@@ -14,6 +18,7 @@ ThreadPool::ThreadPool(int thread_number, unsigned max_requests):
         }
 
         if (pthread_detach(threads_[i])) {
+			INFO("Thread Pool Finishes");
             delete []threads_;
         }
     }
