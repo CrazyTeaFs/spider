@@ -1,4 +1,4 @@
-#include "ThreadPool.h"
+#include "threadpool.h"
 
 using namespace std;
 template< typename T >
