@@ -8,6 +8,7 @@ ThreadPool::ThreadPool(int thread_number, unsigned max_requests):
     threads_ = new pthread_t[thread_number];
 
     for (int i = 0; i < thread_number_; ++i) {
+		// Pass *this To Use Memeber Variables
         if (pthread_create(threads_ + i, NULL, Worker, this) != 0) {
             delete []threads_;
         }
@@ -36,7 +37,7 @@ bool ThreadPool::Append(TJob *request) {
 
 // Static
 void* ThreadPool::Worker( void* arg ) {
-    ThreadPool* pool = (ThreadPool*)arg;
+    ThreadPool* pool = (ThreadPool*) arg;
     pool->Run();
     return pool;
 }
