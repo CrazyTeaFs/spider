@@ -41,7 +41,7 @@ bool ThreadPool::Append(TJob *request) {
 }
 
 // Static
-void* ThreadPool::Worker( void* arg ) {
+void* ThreadPool::Worker(void* arg) {
     ThreadPool* pool = (ThreadPool*) arg;
     pool->Run();
     return pool;
