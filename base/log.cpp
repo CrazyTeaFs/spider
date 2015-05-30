@@ -14,7 +14,7 @@
 using namespace std;
 
 // The Array Is Correctly Ordered
-LogLevel Levelname[LOG_DEBUG + 1] = {
+LogLevel Levelname[LOG_TRACE + 1] = {
 	{LOG_EMERG, "EMERG"},
 	{LOG_ALERT, "ALERT"},
 	{LOG_CRIT, "CRIT"},
@@ -23,6 +23,7 @@ LogLevel Levelname[LOG_DEBUG + 1] = {
 	{LOG_NOTICE, "NOTICE"},
 	{LOG_INFO, "INFO"},
 	{LOG_DEBUG, "DEBUG"},
+	{LOG_TRACE, "TRACE"},
 };
 
 Log* Log::plog_ = NULL;

@@ -23,6 +23,7 @@ typedef enum {
 	LOG_NOTICE,
 	LOG_INFO,
 	LOG_DEBUG,
+	LOG_TRACE,
 } Loglevel_t;
 
 typedef struct {
@@ -107,5 +108,6 @@ private:
 #define CRIT(format, vargs...) 			Log::Instance()->Record(LOG_CRIT, __FILE__, __LINE__, __func__, format, ##vargs) 
 #define ALERT(format, vargs...) 		Log::Instance()->Record(LOG_ALERT, __FILE__, __LINE__, __func__, format, ##vargs) 
 #define EMERG(format, vargs...) 		Log::Instance()->Record(LOG_EMERG, __FILE__, __LINE__, __func__, format, ##vargs)
+#define TRACE(format, vargs...) 		Log::Instance()->Record(LOG_TRACE, __FILE__, __LINE__, __func__, format, ##vargs)
 
 #endif 
