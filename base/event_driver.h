@@ -26,9 +26,13 @@ public:
 
 	void AddEvent(int fd, Socket *sk, Trigger_t type = EDGE_TRIGGER);
 
+	void AddEventFd(int event_fd, Trigger_t type = EDGE_TRIGGER);
+
 	void ModifyEvent(int fd, int active_type);
 
 	void DelEvent(int fd);
+
+	void DelEventFd(int fd);
 
 	int AddTimer(int sec, int msec, bool once_only, int (*callback) (void *), void *args);
 

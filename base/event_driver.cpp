@@ -45,6 +45,18 @@ void EventDriver::AddEvent(int fd, Socket *sk, Trigger_t type) {
 	event_container_.insert(make_pair(fd, sk));	
 }
 
+// Support Linux SYS-API eventfd, Used By Thread Job Invoke Callback
+void EventDriver::AddEventFd(int event_fd, Trigger_t type) {
+	epoll_event event;
+	event.data.fd = event_fd;
+	if (type == LEVEL_TRIGGER) {
+		event.events = EPOLLIN | EPOLLRDHUP; 
+	} else {
+		event.events = EPOLLIN | EPOLLET | EPOLLRDHUP; 
+	}
+	epoll_ctl(epfd_, EPOLL_CTL_ADD, event_fd, &event);
+}
+
 // Under Edge-Trigger  
 void EventDriver::ModifyEvent(int fd, int active_type) {
 	epoll_event event;
@@ -62,6 +74,11 @@ void EventDriver::DelEvent(int fd) {
 	epoll_ctl(epfd_, EPOLL_CTL_DEL, fd, NULL);
 	delete event_container_[fd];
 	event_container_.erase(fd);
+}
+
+// Support Linux SYS-API eventfd, Used By Thread Job Invoke Callback
+void EventDriver::DelEventFd(int fd) {
+	epoll_ctl(epfd_, EPOLL_CTL_DEL, fd, NULL);
 }
 
 // Only This Function Can Create Timer, User Must Check Return Value
