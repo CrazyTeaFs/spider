@@ -61,6 +61,6 @@ void ThreadPool::Run() {
         if (!request) {
             continue;
         }
-        request->Process(NULL, NULL);
+        request->Process(NULL);
     }
 }
