@@ -28,6 +28,7 @@ int MysqlClient::Initialize(const string &ip, short port, const string &user, co
 	config.charset = charset; 
 
     if (mysql_init(&connection) == NULL) {
+		ERROR("Mysql Init Fail, Error: %s", mysql_error(&connection));
 		return -1;
 	}
 
@@ -43,12 +44,14 @@ int MysqlClient::Connect() {
 	if (mysql_real_connect(&connection, config.ip.c_str(), config.user.c_str()
 	, config.passwd.c_str(), config.database.c_str(), config.port, NULL, 0)) {
 		i_conn = 1;
+		INFO("Successfully Connected to Mysql Server: IP(%s), Port(%d), Database(%s)", config.ip.c_str(), config.port, config.database.c_str());
 		if (mysql_set_character_set(&connection, config.charset.c_str()) == 0){   
     	}  	
     	pthread_mutex_unlock(&lock);
 		return 0;
 	}
 	else {
+		ERROR("Connection Failed, Error:%s", mysql_error(&connection));
 		if (mysql_errno(&connection)) {
     		pthread_mutex_unlock(&lock);
 			return mysql_errno(&connection);
@@ -77,6 +80,7 @@ int MysqlClient::CloseConnect() {
 
 int MysqlClient::ExecuteSql(const string &sql) {
 	if (mysql_ping(&connection) != 0) {
+		ERROR("Cannot Connect to Server, Error: %s", mysql_error(&connection));
 		if (Reconnect() != 0) {
 			return -1;
 		}
@@ -84,11 +88,13 @@ int MysqlClient::ExecuteSql(const string &sql) {
 
 	TRACE("Sql Will Be Executed: %s", sql.c_str());
 	if (mysql_query(&connection, sql.c_str()) != 0) {
+		ERROR("Execute SQL Failed. Error:%s", mysql_error(&connection));
 		return -1;
 	}
 
     result = mysql_store_result(&connection);
 	if (result == NULL && mysql_errno(&connection) != 0) {
+		ERROR("Store SQL Result Failed. Error:%s", mysql_error(&connection));
 		return -1;
 	}
 
