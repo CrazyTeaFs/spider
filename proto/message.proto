@@ -9,6 +9,9 @@ enum MessageType {
 
 	FRIEND_LIST_REQUEST = 10005;
 	FRIEND_LIST_RESPONSE = 10006;
+
+	EXECUTE_SQL_REQUEST = 10007;
+	EXECUTE_SQL_RESPONSE = 10008;
 }
 
 message SMessage {
@@ -38,6 +41,9 @@ extend Body {
 
 	optional FriendListRequest friend_list_request 		= 10005;  
 	optional FriendListResponse friend_list_response 	= 10006;
+
+	optional ExecuteSqlRequest execute_sql_request 		= 10007;  
+	optional ExecuteSqlResponse execute_sql__response 	= 10008;
 }
 
 message Response {
@@ -68,4 +74,19 @@ message FriendListRequest {
 message FriendListResponse {
 	required Response rc 		= 10;
 	repeated string friend_list	= 20;
+}
+
+message MysqlRow {
+	repeated string column		= 10;
+}
+
+message ExecuteSqlRequest {
+	required string db_name		= 10;
+	required string sql			= 20;
+}
+
+message ExecuteSqlResponse {
+	required Response rc 		= 10;
+	repeated MysqlRow row 		= 20;
+	optional uint32 insert_id	= 30;
 }

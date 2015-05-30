@@ -50,6 +50,15 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* FriendListResponse_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   FriendListResponse_reflection_ = NULL;
+const ::google::protobuf::Descriptor* MysqlRow_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  MysqlRow_reflection_ = NULL;
+const ::google::protobuf::Descriptor* ExecuteSqlRequest_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  ExecuteSqlRequest_reflection_ = NULL;
+const ::google::protobuf::Descriptor* ExecuteSqlResponse_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  ExecuteSqlResponse_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* MessageType_descriptor_ = NULL;
 
 }  // namespace
@@ -218,6 +227,54 @@ void protobuf_AssignDesc_message_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(FriendListResponse));
+  MysqlRow_descriptor_ = file->message_type(10);
+  static const int MysqlRow_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MysqlRow, column_),
+  };
+  MysqlRow_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      MysqlRow_descriptor_,
+      MysqlRow::default_instance_,
+      MysqlRow_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MysqlRow, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MysqlRow, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(MysqlRow));
+  ExecuteSqlRequest_descriptor_ = file->message_type(11);
+  static const int ExecuteSqlRequest_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlRequest, db_name_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlRequest, sql_),
+  };
+  ExecuteSqlRequest_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      ExecuteSqlRequest_descriptor_,
+      ExecuteSqlRequest::default_instance_,
+      ExecuteSqlRequest_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlRequest, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlRequest, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(ExecuteSqlRequest));
+  ExecuteSqlResponse_descriptor_ = file->message_type(12);
+  static const int ExecuteSqlResponse_offsets_[3] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, rc_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, row_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, insert_id_),
+  };
+  ExecuteSqlResponse_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      ExecuteSqlResponse_descriptor_,
+      ExecuteSqlResponse::default_instance_,
+      ExecuteSqlResponse_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(ExecuteSqlResponse));
   MessageType_descriptor_ = file->enum_type(0);
 }
 
@@ -251,6 +308,12 @@ void protobuf_RegisterTypes(const ::std::string&) {
     FriendListRequest_descriptor_, &FriendListRequest::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     FriendListResponse_descriptor_, &FriendListResponse::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    MysqlRow_descriptor_, &MysqlRow::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    ExecuteSqlRequest_descriptor_, &ExecuteSqlRequest::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    ExecuteSqlResponse_descriptor_, &ExecuteSqlResponse::default_instance());
 }
 
 }  // namespace
@@ -276,6 +339,12 @@ void protobuf_ShutdownFile_message_2eproto() {
   delete FriendListRequest_reflection_;
   delete FriendListResponse::default_instance_;
   delete FriendListResponse_reflection_;
+  delete MysqlRow::default_instance_;
+  delete MysqlRow_reflection_;
+  delete ExecuteSqlRequest::default_instance_;
+  delete ExecuteSqlRequest_reflection_;
+  delete ExecuteSqlResponse::default_instance_;
+  delete ExecuteSqlResponse_reflection_;
 }
 
 void protobuf_AddDesc_message_2eproto() {
@@ -299,21 +368,31 @@ void protobuf_AddDesc_message_2eproto() {
     "c\030\n \002(\0132\020.spider.Response\"\'\n\021FriendListR"
     "equest\022\022\n\nlogin_name\030\n \002(\t\"G\n\022FriendList"
     "Response\022\034\n\002rc\030\n \002(\0132\020.spider.Response\022\023"
-    "\n\013friend_list\030\024 \003(\t*\236\001\n\013MessageType\022\027\n\022H"
-    "EART_BEAT_REQUEST\020\221N\022\030\n\023HEART_BEAT_RESPO"
-    "NSE\020\222N\022\022\n\rLOGIN_REQUEST\020\223N\022\023\n\016LOGIN_RESP"
-    "ONSE\020\224N\022\030\n\023FRIEND_LIST_REQUEST\020\225N\022\031\n\024FRI"
-    "END_LIST_RESPONSE\020\226N:C\n\022heart_beat_reque"
-    "st\022\014.spider.Body\030\221N \001(\0132\030.spider.HeartBe"
-    "atRequest:E\n\023heart_beat_response\022\014.spide"
-    "r.Body\030\222N \001(\0132\031.spider.HeartBeatResponse"
-    "::\n\rlogin_request\022\014.spider.Body\030\223N \001(\0132\024"
-    ".spider.LoginRequest:<\n\016login_response\022\014"
-    ".spider.Body\030\224N \001(\0132\025.spider.LoginRespon"
-    "se:E\n\023friend_list_request\022\014.spider.Body\030"
-    "\225N \001(\0132\031.spider.FriendListRequest:G\n\024fri"
-    "end_list_response\022\014.spider.Body\030\226N \001(\0132\032"
-    ".spider.FriendListResponse", 1146);
+    "\n\013friend_list\030\024 \003(\t\"\032\n\010MysqlRow\022\016\n\006colum"
+    "n\030\n \003(\t\"1\n\021ExecuteSqlRequest\022\017\n\007db_name\030"
+    "\n \002(\t\022\013\n\003sql\030\024 \002(\t\"d\n\022ExecuteSqlResponse"
+    "\022\034\n\002rc\030\n \002(\0132\020.spider.Response\022\035\n\003row\030\024 "
+    "\003(\0132\020.spider.MysqlRow\022\021\n\tinsert_id\030\036 \001(\r"
+    "*\323\001\n\013MessageType\022\027\n\022HEART_BEAT_REQUEST\020\221"
+    "N\022\030\n\023HEART_BEAT_RESPONSE\020\222N\022\022\n\rLOGIN_REQ"
+    "UEST\020\223N\022\023\n\016LOGIN_RESPONSE\020\224N\022\030\n\023FRIEND_L"
+    "IST_REQUEST\020\225N\022\031\n\024FRIEND_LIST_RESPONSE\020\226"
+    "N\022\030\n\023EXECUTE_SQL_REQUEST\020\227N\022\031\n\024EXECUTE_S"
+    "QL_RESPONSE\020\230N:C\n\022heart_beat_request\022\014.s"
+    "pider.Body\030\221N \001(\0132\030.spider.HeartBeatRequ"
+    "est:E\n\023heart_beat_response\022\014.spider.Body"
+    "\030\222N \001(\0132\031.spider.HeartBeatResponse::\n\rlo"
+    "gin_request\022\014.spider.Body\030\223N \001(\0132\024.spide"
+    "r.LoginRequest:<\n\016login_response\022\014.spide"
+    "r.Body\030\224N \001(\0132\025.spider.LoginResponse:E\n\023"
+    "friend_list_request\022\014.spider.Body\030\225N \001(\013"
+    "2\031.spider.FriendListRequest:G\n\024friend_li"
+    "st_response\022\014.spider.Body\030\226N \001(\0132\032.spide"
+    "r.FriendListResponse:E\n\023execute_sql_requ"
+    "est\022\014.spider.Body\030\227N \001(\0132\031.spider.Execut"
+    "eSqlRequest:H\n\025execute_sql__response\022\014.s"
+    "pider.Body\030\230N \001(\0132\032.spider.ExecuteSqlRes"
+    "ponse", 1525);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "message.proto", &protobuf_RegisterTypes);
   SMessage::default_instance_ = new SMessage();
@@ -326,6 +405,9 @@ void protobuf_AddDesc_message_2eproto() {
   LoginResponse::default_instance_ = new LoginResponse();
   FriendListRequest::default_instance_ = new FriendListRequest();
   FriendListResponse::default_instance_ = new FriendListResponse();
+  MysqlRow::default_instance_ = new MysqlRow();
+  ExecuteSqlRequest::default_instance_ = new ExecuteSqlRequest();
+  ExecuteSqlResponse::default_instance_ = new ExecuteSqlResponse();
   ::google::protobuf::internal::ExtensionSet::RegisterMessageExtension(
     &::spider::Body::default_instance(),
     10001, 11, false, false,
@@ -350,6 +432,14 @@ void protobuf_AddDesc_message_2eproto() {
     &::spider::Body::default_instance(),
     10006, 11, false, false,
     &::spider::FriendListResponse::default_instance());
+  ::google::protobuf::internal::ExtensionSet::RegisterMessageExtension(
+    &::spider::Body::default_instance(),
+    10007, 11, false, false,
+    &::spider::ExecuteSqlRequest::default_instance());
+  ::google::protobuf::internal::ExtensionSet::RegisterMessageExtension(
+    &::spider::Body::default_instance(),
+    10008, 11, false, false,
+    &::spider::ExecuteSqlResponse::default_instance());
   SMessage::default_instance_->InitAsDefaultInstance();
   Header::default_instance_->InitAsDefaultInstance();
   Body::default_instance_->InitAsDefaultInstance();
@@ -360,6 +450,9 @@ void protobuf_AddDesc_message_2eproto() {
   LoginResponse::default_instance_->InitAsDefaultInstance();
   FriendListRequest::default_instance_->InitAsDefaultInstance();
   FriendListResponse::default_instance_->InitAsDefaultInstance();
+  MysqlRow::default_instance_->InitAsDefaultInstance();
+  ExecuteSqlRequest::default_instance_->InitAsDefaultInstance();
+  ExecuteSqlResponse::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_message_2eproto);
 }
 
@@ -381,6 +474,8 @@ bool MessageType_IsValid(int value) {
     case 10004:
     case 10005:
     case 10006:
+    case 10007:
+    case 10008:
       return true;
     default:
       return false;
@@ -3048,6 +3143,853 @@ void FriendListResponse::Swap(FriendListResponse* other) {
   return metadata;
 }
 
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int MysqlRow::kColumnFieldNumber;
+#endif  // !_MSC_VER
+
+MysqlRow::MysqlRow()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:spider.MysqlRow)
+}
+
+void MysqlRow::InitAsDefaultInstance() {
+}
+
+MysqlRow::MysqlRow(const MysqlRow& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:spider.MysqlRow)
+}
+
+void MysqlRow::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+MysqlRow::~MysqlRow() {
+  // @@protoc_insertion_point(destructor:spider.MysqlRow)
+  SharedDtor();
+}
+
+void MysqlRow::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void MysqlRow::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* MysqlRow::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return MysqlRow_descriptor_;
+}
+
+const MysqlRow& MysqlRow::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_message_2eproto();
+  return *default_instance_;
+}
+
+MysqlRow* MysqlRow::default_instance_ = NULL;
+
+MysqlRow* MysqlRow::New() const {
+  return new MysqlRow;
+}
+
+void MysqlRow::Clear() {
+  column_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool MysqlRow::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:spider.MysqlRow)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // repeated string column = 10;
+      case 10: {
+        if (tag == 82) {
+         parse_column:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->add_column()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->column(this->column_size() - 1).data(),
+            this->column(this->column_size() - 1).length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "column");
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(82)) goto parse_column;
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:spider.MysqlRow)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:spider.MysqlRow)
+  return false;
+#undef DO_
+}
+
+void MysqlRow::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:spider.MysqlRow)
+  // repeated string column = 10;
+  for (int i = 0; i < this->column_size(); i++) {
+  ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+    this->column(i).data(), this->column(i).length(),
+    ::google::protobuf::internal::WireFormat::SERIALIZE,
+    "column");
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      10, this->column(i), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:spider.MysqlRow)
+}
+
+::google::protobuf::uint8* MysqlRow::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:spider.MysqlRow)
+  // repeated string column = 10;
+  for (int i = 0; i < this->column_size(); i++) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->column(i).data(), this->column(i).length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "column");
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteStringToArray(10, this->column(i), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:spider.MysqlRow)
+  return target;
+}
+
+int MysqlRow::ByteSize() const {
+  int total_size = 0;
+
+  // repeated string column = 10;
+  total_size += 1 * this->column_size();
+  for (int i = 0; i < this->column_size(); i++) {
+    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+      this->column(i));
+  }
+
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void MysqlRow::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const MysqlRow* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const MysqlRow*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void MysqlRow::MergeFrom(const MysqlRow& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  column_.MergeFrom(from.column_);
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void MysqlRow::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void MysqlRow::CopyFrom(const MysqlRow& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool MysqlRow::IsInitialized() const {
+
+  return true;
+}
+
+void MysqlRow::Swap(MysqlRow* other) {
+  if (other != this) {
+    column_.Swap(&other->column_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata MysqlRow::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = MysqlRow_descriptor_;
+  metadata.reflection = MysqlRow_reflection_;
+  return metadata;
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int ExecuteSqlRequest::kDbNameFieldNumber;
+const int ExecuteSqlRequest::kSqlFieldNumber;
+#endif  // !_MSC_VER
+
+ExecuteSqlRequest::ExecuteSqlRequest()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:spider.ExecuteSqlRequest)
+}
+
+void ExecuteSqlRequest::InitAsDefaultInstance() {
+}
+
+ExecuteSqlRequest::ExecuteSqlRequest(const ExecuteSqlRequest& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:spider.ExecuteSqlRequest)
+}
+
+void ExecuteSqlRequest::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  db_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sql_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+ExecuteSqlRequest::~ExecuteSqlRequest() {
+  // @@protoc_insertion_point(destructor:spider.ExecuteSqlRequest)
+  SharedDtor();
+}
+
+void ExecuteSqlRequest::SharedDtor() {
+  if (db_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete db_name_;
+  }
+  if (sql_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sql_;
+  }
+  if (this != default_instance_) {
+  }
+}
+
+void ExecuteSqlRequest::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* ExecuteSqlRequest::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return ExecuteSqlRequest_descriptor_;
+}
+
+const ExecuteSqlRequest& ExecuteSqlRequest::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_message_2eproto();
+  return *default_instance_;
+}
+
+ExecuteSqlRequest* ExecuteSqlRequest::default_instance_ = NULL;
+
+ExecuteSqlRequest* ExecuteSqlRequest::New() const {
+  return new ExecuteSqlRequest;
+}
+
+void ExecuteSqlRequest::Clear() {
+  if (_has_bits_[0 / 32] & 3) {
+    if (has_db_name()) {
+      if (db_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        db_name_->clear();
+      }
+    }
+    if (has_sql()) {
+      if (sql_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+        sql_->clear();
+      }
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool ExecuteSqlRequest::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:spider.ExecuteSqlRequest)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(16383);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required string db_name = 10;
+      case 10: {
+        if (tag == 82) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_db_name()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->db_name().data(), this->db_name().length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "db_name");
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(162)) goto parse_sql;
+        break;
+      }
+
+      // required string sql = 20;
+      case 20: {
+        if (tag == 162) {
+         parse_sql:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sql()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->sql().data(), this->sql().length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "sql");
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:spider.ExecuteSqlRequest)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:spider.ExecuteSqlRequest)
+  return false;
+#undef DO_
+}
+
+void ExecuteSqlRequest::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:spider.ExecuteSqlRequest)
+  // required string db_name = 10;
+  if (has_db_name()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->db_name().data(), this->db_name().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "db_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      10, this->db_name(), output);
+  }
+
+  // required string sql = 20;
+  if (has_sql()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sql().data(), this->sql().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "sql");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      20, this->sql(), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:spider.ExecuteSqlRequest)
+}
+
+::google::protobuf::uint8* ExecuteSqlRequest::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:spider.ExecuteSqlRequest)
+  // required string db_name = 10;
+  if (has_db_name()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->db_name().data(), this->db_name().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "db_name");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        10, this->db_name(), target);
+  }
+
+  // required string sql = 20;
+  if (has_sql()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->sql().data(), this->sql().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "sql");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        20, this->sql(), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:spider.ExecuteSqlRequest)
+  return target;
+}
+
+int ExecuteSqlRequest::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required string db_name = 10;
+    if (has_db_name()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->db_name());
+    }
+
+    // required string sql = 20;
+    if (has_sql()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sql());
+    }
+
+  }
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void ExecuteSqlRequest::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const ExecuteSqlRequest* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const ExecuteSqlRequest*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void ExecuteSqlRequest::MergeFrom(const ExecuteSqlRequest& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_db_name()) {
+      set_db_name(from.db_name());
+    }
+    if (from.has_sql()) {
+      set_sql(from.sql());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void ExecuteSqlRequest::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ExecuteSqlRequest::CopyFrom(const ExecuteSqlRequest& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ExecuteSqlRequest::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void ExecuteSqlRequest::Swap(ExecuteSqlRequest* other) {
+  if (other != this) {
+    std::swap(db_name_, other->db_name_);
+    std::swap(sql_, other->sql_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata ExecuteSqlRequest::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = ExecuteSqlRequest_descriptor_;
+  metadata.reflection = ExecuteSqlRequest_reflection_;
+  return metadata;
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int ExecuteSqlResponse::kRcFieldNumber;
+const int ExecuteSqlResponse::kRowFieldNumber;
+const int ExecuteSqlResponse::kInsertIdFieldNumber;
+#endif  // !_MSC_VER
+
+ExecuteSqlResponse::ExecuteSqlResponse()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:spider.ExecuteSqlResponse)
+}
+
+void ExecuteSqlResponse::InitAsDefaultInstance() {
+  rc_ = const_cast< ::spider::Response*>(&::spider::Response::default_instance());
+}
+
+ExecuteSqlResponse::ExecuteSqlResponse(const ExecuteSqlResponse& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:spider.ExecuteSqlResponse)
+}
+
+void ExecuteSqlResponse::SharedCtor() {
+  _cached_size_ = 0;
+  rc_ = NULL;
+  insert_id_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+ExecuteSqlResponse::~ExecuteSqlResponse() {
+  // @@protoc_insertion_point(destructor:spider.ExecuteSqlResponse)
+  SharedDtor();
+}
+
+void ExecuteSqlResponse::SharedDtor() {
+  if (this != default_instance_) {
+    delete rc_;
+  }
+}
+
+void ExecuteSqlResponse::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* ExecuteSqlResponse::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return ExecuteSqlResponse_descriptor_;
+}
+
+const ExecuteSqlResponse& ExecuteSqlResponse::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_message_2eproto();
+  return *default_instance_;
+}
+
+ExecuteSqlResponse* ExecuteSqlResponse::default_instance_ = NULL;
+
+ExecuteSqlResponse* ExecuteSqlResponse::New() const {
+  return new ExecuteSqlResponse;
+}
+
+void ExecuteSqlResponse::Clear() {
+  if (_has_bits_[0 / 32] & 5) {
+    if (has_rc()) {
+      if (rc_ != NULL) rc_->::spider::Response::Clear();
+    }
+    insert_id_ = 0u;
+  }
+  row_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool ExecuteSqlResponse::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:spider.ExecuteSqlResponse)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(16383);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required .spider.Response rc = 10;
+      case 10: {
+        if (tag == 82) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_rc()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(162)) goto parse_row;
+        break;
+      }
+
+      // repeated .spider.MysqlRow row = 20;
+      case 20: {
+        if (tag == 162) {
+         parse_row:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_row()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(162)) goto parse_row;
+        if (input->ExpectTag(240)) goto parse_insert_id;
+        break;
+      }
+
+      // optional uint32 insert_id = 30;
+      case 30: {
+        if (tag == 240) {
+         parse_insert_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &insert_id_)));
+          set_has_insert_id();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:spider.ExecuteSqlResponse)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:spider.ExecuteSqlResponse)
+  return false;
+#undef DO_
+}
+
+void ExecuteSqlResponse::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:spider.ExecuteSqlResponse)
+  // required .spider.Response rc = 10;
+  if (has_rc()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      10, this->rc(), output);
+  }
+
+  // repeated .spider.MysqlRow row = 20;
+  for (int i = 0; i < this->row_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      20, this->row(i), output);
+  }
+
+  // optional uint32 insert_id = 30;
+  if (has_insert_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(30, this->insert_id(), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:spider.ExecuteSqlResponse)
+}
+
+::google::protobuf::uint8* ExecuteSqlResponse::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:spider.ExecuteSqlResponse)
+  // required .spider.Response rc = 10;
+  if (has_rc()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        10, this->rc(), target);
+  }
+
+  // repeated .spider.MysqlRow row = 20;
+  for (int i = 0; i < this->row_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        20, this->row(i), target);
+  }
+
+  // optional uint32 insert_id = 30;
+  if (has_insert_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(30, this->insert_id(), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:spider.ExecuteSqlResponse)
+  return target;
+}
+
+int ExecuteSqlResponse::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required .spider.Response rc = 10;
+    if (has_rc()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->rc());
+    }
+
+    // optional uint32 insert_id = 30;
+    if (has_insert_id()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->insert_id());
+    }
+
+  }
+  // repeated .spider.MysqlRow row = 20;
+  total_size += 2 * this->row_size();
+  for (int i = 0; i < this->row_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->row(i));
+  }
+
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void ExecuteSqlResponse::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const ExecuteSqlResponse* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const ExecuteSqlResponse*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void ExecuteSqlResponse::MergeFrom(const ExecuteSqlResponse& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  row_.MergeFrom(from.row_);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_rc()) {
+      mutable_rc()->::spider::Response::MergeFrom(from.rc());
+    }
+    if (from.has_insert_id()) {
+      set_insert_id(from.insert_id());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void ExecuteSqlResponse::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ExecuteSqlResponse::CopyFrom(const ExecuteSqlResponse& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ExecuteSqlResponse::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+
+  if (has_rc()) {
+    if (!this->rc().IsInitialized()) return false;
+  }
+  return true;
+}
+
+void ExecuteSqlResponse::Swap(ExecuteSqlResponse* other) {
+  if (other != this) {
+    std::swap(rc_, other->rc_);
+    row_.Swap(&other->row_);
+    std::swap(insert_id_, other->insert_id_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata ExecuteSqlResponse::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = ExecuteSqlResponse_descriptor_;
+  metadata.reflection = ExecuteSqlResponse_reflection_;
+  return metadata;
+}
+
 ::google::protobuf::internal::ExtensionIdentifier< ::spider::Body,
     ::google::protobuf::internal::MessageTypeTraits< ::spider::HeartBeatRequest >, 11, false >
   heart_beat_request(kHeartBeatRequestFieldNumber, ::spider::HeartBeatRequest::default_instance());
@@ -3066,6 +4008,12 @@ void FriendListResponse::Swap(FriendListResponse* other) {
 ::google::protobuf::internal::ExtensionIdentifier< ::spider::Body,
     ::google::protobuf::internal::MessageTypeTraits< ::spider::FriendListResponse >, 11, false >
   friend_list_response(kFriendListResponseFieldNumber, ::spider::FriendListResponse::default_instance());
+::google::protobuf::internal::ExtensionIdentifier< ::spider::Body,
+    ::google::protobuf::internal::MessageTypeTraits< ::spider::ExecuteSqlRequest >, 11, false >
+  execute_sql_request(kExecuteSqlRequestFieldNumber, ::spider::ExecuteSqlRequest::default_instance());
+::google::protobuf::internal::ExtensionIdentifier< ::spider::Body,
+    ::google::protobuf::internal::MessageTypeTraits< ::spider::ExecuteSqlResponse >, 11, false >
+  execute_sql__response(kExecuteSqlResponseFieldNumber, ::spider::ExecuteSqlResponse::default_instance());
 
 // @@protoc_insertion_point(namespace_scope)
 

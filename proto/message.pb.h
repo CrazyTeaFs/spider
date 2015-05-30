@@ -44,6 +44,9 @@ class LoginRequest;
 class LoginResponse;
 class FriendListRequest;
 class FriendListResponse;
+class MysqlRow;
+class ExecuteSqlRequest;
+class ExecuteSqlResponse;
 
 enum MessageType {
   HEART_BEAT_REQUEST = 10001,
@@ -51,11 +54,13 @@ enum MessageType {
   LOGIN_REQUEST = 10003,
   LOGIN_RESPONSE = 10004,
   FRIEND_LIST_REQUEST = 10005,
-  FRIEND_LIST_RESPONSE = 10006
+  FRIEND_LIST_RESPONSE = 10006,
+  EXECUTE_SQL_REQUEST = 10007,
+  EXECUTE_SQL_RESPONSE = 10008
 };
 bool MessageType_IsValid(int value);
 const MessageType MessageType_MIN = HEART_BEAT_REQUEST;
-const MessageType MessageType_MAX = FRIEND_LIST_RESPONSE;
+const MessageType MessageType_MAX = EXECUTE_SQL_RESPONSE;
 const int MessageType_ARRAYSIZE = MessageType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MessageType_descriptor();
@@ -968,6 +973,295 @@ class FriendListResponse : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static FriendListResponse* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class MysqlRow : public ::google::protobuf::Message {
+ public:
+  MysqlRow();
+  virtual ~MysqlRow();
+
+  MysqlRow(const MysqlRow& from);
+
+  inline MysqlRow& operator=(const MysqlRow& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const MysqlRow& default_instance();
+
+  void Swap(MysqlRow* other);
+
+  // implements Message ----------------------------------------------
+
+  MysqlRow* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const MysqlRow& from);
+  void MergeFrom(const MysqlRow& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated string column = 10;
+  inline int column_size() const;
+  inline void clear_column();
+  static const int kColumnFieldNumber = 10;
+  inline const ::std::string& column(int index) const;
+  inline ::std::string* mutable_column(int index);
+  inline void set_column(int index, const ::std::string& value);
+  inline void set_column(int index, const char* value);
+  inline void set_column(int index, const char* value, size_t size);
+  inline ::std::string* add_column();
+  inline void add_column(const ::std::string& value);
+  inline void add_column(const char* value);
+  inline void add_column(const char* value, size_t size);
+  inline const ::google::protobuf::RepeatedPtrField< ::std::string>& column() const;
+  inline ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_column();
+
+  // @@protoc_insertion_point(class_scope:spider.MysqlRow)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> column_;
+  friend void  protobuf_AddDesc_message_2eproto();
+  friend void protobuf_AssignDesc_message_2eproto();
+  friend void protobuf_ShutdownFile_message_2eproto();
+
+  void InitAsDefaultInstance();
+  static MysqlRow* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class ExecuteSqlRequest : public ::google::protobuf::Message {
+ public:
+  ExecuteSqlRequest();
+  virtual ~ExecuteSqlRequest();
+
+  ExecuteSqlRequest(const ExecuteSqlRequest& from);
+
+  inline ExecuteSqlRequest& operator=(const ExecuteSqlRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ExecuteSqlRequest& default_instance();
+
+  void Swap(ExecuteSqlRequest* other);
+
+  // implements Message ----------------------------------------------
+
+  ExecuteSqlRequest* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ExecuteSqlRequest& from);
+  void MergeFrom(const ExecuteSqlRequest& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required string db_name = 10;
+  inline bool has_db_name() const;
+  inline void clear_db_name();
+  static const int kDbNameFieldNumber = 10;
+  inline const ::std::string& db_name() const;
+  inline void set_db_name(const ::std::string& value);
+  inline void set_db_name(const char* value);
+  inline void set_db_name(const char* value, size_t size);
+  inline ::std::string* mutable_db_name();
+  inline ::std::string* release_db_name();
+  inline void set_allocated_db_name(::std::string* db_name);
+
+  // required string sql = 20;
+  inline bool has_sql() const;
+  inline void clear_sql();
+  static const int kSqlFieldNumber = 20;
+  inline const ::std::string& sql() const;
+  inline void set_sql(const ::std::string& value);
+  inline void set_sql(const char* value);
+  inline void set_sql(const char* value, size_t size);
+  inline ::std::string* mutable_sql();
+  inline ::std::string* release_sql();
+  inline void set_allocated_sql(::std::string* sql);
+
+  // @@protoc_insertion_point(class_scope:spider.ExecuteSqlRequest)
+ private:
+  inline void set_has_db_name();
+  inline void clear_has_db_name();
+  inline void set_has_sql();
+  inline void clear_has_sql();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* db_name_;
+  ::std::string* sql_;
+  friend void  protobuf_AddDesc_message_2eproto();
+  friend void protobuf_AssignDesc_message_2eproto();
+  friend void protobuf_ShutdownFile_message_2eproto();
+
+  void InitAsDefaultInstance();
+  static ExecuteSqlRequest* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class ExecuteSqlResponse : public ::google::protobuf::Message {
+ public:
+  ExecuteSqlResponse();
+  virtual ~ExecuteSqlResponse();
+
+  ExecuteSqlResponse(const ExecuteSqlResponse& from);
+
+  inline ExecuteSqlResponse& operator=(const ExecuteSqlResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ExecuteSqlResponse& default_instance();
+
+  void Swap(ExecuteSqlResponse* other);
+
+  // implements Message ----------------------------------------------
+
+  ExecuteSqlResponse* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ExecuteSqlResponse& from);
+  void MergeFrom(const ExecuteSqlResponse& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .spider.Response rc = 10;
+  inline bool has_rc() const;
+  inline void clear_rc();
+  static const int kRcFieldNumber = 10;
+  inline const ::spider::Response& rc() const;
+  inline ::spider::Response* mutable_rc();
+  inline ::spider::Response* release_rc();
+  inline void set_allocated_rc(::spider::Response* rc);
+
+  // repeated .spider.MysqlRow row = 20;
+  inline int row_size() const;
+  inline void clear_row();
+  static const int kRowFieldNumber = 20;
+  inline const ::spider::MysqlRow& row(int index) const;
+  inline ::spider::MysqlRow* mutable_row(int index);
+  inline ::spider::MysqlRow* add_row();
+  inline const ::google::protobuf::RepeatedPtrField< ::spider::MysqlRow >&
+      row() const;
+  inline ::google::protobuf::RepeatedPtrField< ::spider::MysqlRow >*
+      mutable_row();
+
+  // optional uint32 insert_id = 30;
+  inline bool has_insert_id() const;
+  inline void clear_insert_id();
+  static const int kInsertIdFieldNumber = 30;
+  inline ::google::protobuf::uint32 insert_id() const;
+  inline void set_insert_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:spider.ExecuteSqlResponse)
+ private:
+  inline void set_has_rc();
+  inline void clear_has_rc();
+  inline void set_has_insert_id();
+  inline void clear_has_insert_id();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::spider::Response* rc_;
+  ::google::protobuf::RepeatedPtrField< ::spider::MysqlRow > row_;
+  ::google::protobuf::uint32 insert_id_;
+  friend void  protobuf_AddDesc_message_2eproto();
+  friend void protobuf_AssignDesc_message_2eproto();
+  friend void protobuf_ShutdownFile_message_2eproto();
+
+  void InitAsDefaultInstance();
+  static ExecuteSqlResponse* default_instance_;
+};
 // ===================================================================
 
 static const int kHeartBeatRequestFieldNumber = 10001;
@@ -994,6 +1288,14 @@ static const int kFriendListResponseFieldNumber = 10006;
 extern ::google::protobuf::internal::ExtensionIdentifier< ::spider::Body,
     ::google::protobuf::internal::MessageTypeTraits< ::spider::FriendListResponse >, 11, false >
   friend_list_response;
+static const int kExecuteSqlRequestFieldNumber = 10007;
+extern ::google::protobuf::internal::ExtensionIdentifier< ::spider::Body,
+    ::google::protobuf::internal::MessageTypeTraits< ::spider::ExecuteSqlRequest >, 11, false >
+  execute_sql_request;
+static const int kExecuteSqlResponseFieldNumber = 10008;
+extern ::google::protobuf::internal::ExtensionIdentifier< ::spider::Body,
+    ::google::protobuf::internal::MessageTypeTraits< ::spider::ExecuteSqlResponse >, 11, false >
+  execute_sql__response;
 
 // ===================================================================
 
@@ -1765,6 +2067,319 @@ inline ::google::protobuf::RepeatedPtrField< ::std::string>*
 FriendListResponse::mutable_friend_list() {
   // @@protoc_insertion_point(field_mutable_list:spider.FriendListResponse.friend_list)
   return &friend_list_;
+}
+
+// -------------------------------------------------------------------
+
+// MysqlRow
+
+// repeated string column = 10;
+inline int MysqlRow::column_size() const {
+  return column_.size();
+}
+inline void MysqlRow::clear_column() {
+  column_.Clear();
+}
+inline const ::std::string& MysqlRow::column(int index) const {
+  // @@protoc_insertion_point(field_get:spider.MysqlRow.column)
+  return column_.Get(index);
+}
+inline ::std::string* MysqlRow::mutable_column(int index) {
+  // @@protoc_insertion_point(field_mutable:spider.MysqlRow.column)
+  return column_.Mutable(index);
+}
+inline void MysqlRow::set_column(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:spider.MysqlRow.column)
+  column_.Mutable(index)->assign(value);
+}
+inline void MysqlRow::set_column(int index, const char* value) {
+  column_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:spider.MysqlRow.column)
+}
+inline void MysqlRow::set_column(int index, const char* value, size_t size) {
+  column_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:spider.MysqlRow.column)
+}
+inline ::std::string* MysqlRow::add_column() {
+  return column_.Add();
+}
+inline void MysqlRow::add_column(const ::std::string& value) {
+  column_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:spider.MysqlRow.column)
+}
+inline void MysqlRow::add_column(const char* value) {
+  column_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:spider.MysqlRow.column)
+}
+inline void MysqlRow::add_column(const char* value, size_t size) {
+  column_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:spider.MysqlRow.column)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+MysqlRow::column() const {
+  // @@protoc_insertion_point(field_list:spider.MysqlRow.column)
+  return column_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+MysqlRow::mutable_column() {
+  // @@protoc_insertion_point(field_mutable_list:spider.MysqlRow.column)
+  return &column_;
+}
+
+// -------------------------------------------------------------------
+
+// ExecuteSqlRequest
+
+// required string db_name = 10;
+inline bool ExecuteSqlRequest::has_db_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ExecuteSqlRequest::set_has_db_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ExecuteSqlRequest::clear_has_db_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ExecuteSqlRequest::clear_db_name() {
+  if (db_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    db_name_->clear();
+  }
+  clear_has_db_name();
+}
+inline const ::std::string& ExecuteSqlRequest::db_name() const {
+  // @@protoc_insertion_point(field_get:spider.ExecuteSqlRequest.db_name)
+  return *db_name_;
+}
+inline void ExecuteSqlRequest::set_db_name(const ::std::string& value) {
+  set_has_db_name();
+  if (db_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    db_name_ = new ::std::string;
+  }
+  db_name_->assign(value);
+  // @@protoc_insertion_point(field_set:spider.ExecuteSqlRequest.db_name)
+}
+inline void ExecuteSqlRequest::set_db_name(const char* value) {
+  set_has_db_name();
+  if (db_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    db_name_ = new ::std::string;
+  }
+  db_name_->assign(value);
+  // @@protoc_insertion_point(field_set_char:spider.ExecuteSqlRequest.db_name)
+}
+inline void ExecuteSqlRequest::set_db_name(const char* value, size_t size) {
+  set_has_db_name();
+  if (db_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    db_name_ = new ::std::string;
+  }
+  db_name_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:spider.ExecuteSqlRequest.db_name)
+}
+inline ::std::string* ExecuteSqlRequest::mutable_db_name() {
+  set_has_db_name();
+  if (db_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    db_name_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:spider.ExecuteSqlRequest.db_name)
+  return db_name_;
+}
+inline ::std::string* ExecuteSqlRequest::release_db_name() {
+  clear_has_db_name();
+  if (db_name_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = db_name_;
+    db_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void ExecuteSqlRequest::set_allocated_db_name(::std::string* db_name) {
+  if (db_name_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete db_name_;
+  }
+  if (db_name) {
+    set_has_db_name();
+    db_name_ = db_name;
+  } else {
+    clear_has_db_name();
+    db_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:spider.ExecuteSqlRequest.db_name)
+}
+
+// required string sql = 20;
+inline bool ExecuteSqlRequest::has_sql() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ExecuteSqlRequest::set_has_sql() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ExecuteSqlRequest::clear_has_sql() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ExecuteSqlRequest::clear_sql() {
+  if (sql_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sql_->clear();
+  }
+  clear_has_sql();
+}
+inline const ::std::string& ExecuteSqlRequest::sql() const {
+  // @@protoc_insertion_point(field_get:spider.ExecuteSqlRequest.sql)
+  return *sql_;
+}
+inline void ExecuteSqlRequest::set_sql(const ::std::string& value) {
+  set_has_sql();
+  if (sql_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sql_ = new ::std::string;
+  }
+  sql_->assign(value);
+  // @@protoc_insertion_point(field_set:spider.ExecuteSqlRequest.sql)
+}
+inline void ExecuteSqlRequest::set_sql(const char* value) {
+  set_has_sql();
+  if (sql_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sql_ = new ::std::string;
+  }
+  sql_->assign(value);
+  // @@protoc_insertion_point(field_set_char:spider.ExecuteSqlRequest.sql)
+}
+inline void ExecuteSqlRequest::set_sql(const char* value, size_t size) {
+  set_has_sql();
+  if (sql_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sql_ = new ::std::string;
+  }
+  sql_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:spider.ExecuteSqlRequest.sql)
+}
+inline ::std::string* ExecuteSqlRequest::mutable_sql() {
+  set_has_sql();
+  if (sql_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    sql_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:spider.ExecuteSqlRequest.sql)
+  return sql_;
+}
+inline ::std::string* ExecuteSqlRequest::release_sql() {
+  clear_has_sql();
+  if (sql_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = sql_;
+    sql_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void ExecuteSqlRequest::set_allocated_sql(::std::string* sql) {
+  if (sql_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete sql_;
+  }
+  if (sql) {
+    set_has_sql();
+    sql_ = sql;
+  } else {
+    clear_has_sql();
+    sql_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:spider.ExecuteSqlRequest.sql)
+}
+
+// -------------------------------------------------------------------
+
+// ExecuteSqlResponse
+
+// required .spider.Response rc = 10;
+inline bool ExecuteSqlResponse::has_rc() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ExecuteSqlResponse::set_has_rc() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ExecuteSqlResponse::clear_has_rc() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ExecuteSqlResponse::clear_rc() {
+  if (rc_ != NULL) rc_->::spider::Response::Clear();
+  clear_has_rc();
+}
+inline const ::spider::Response& ExecuteSqlResponse::rc() const {
+  // @@protoc_insertion_point(field_get:spider.ExecuteSqlResponse.rc)
+  return rc_ != NULL ? *rc_ : *default_instance_->rc_;
+}
+inline ::spider::Response* ExecuteSqlResponse::mutable_rc() {
+  set_has_rc();
+  if (rc_ == NULL) rc_ = new ::spider::Response;
+  // @@protoc_insertion_point(field_mutable:spider.ExecuteSqlResponse.rc)
+  return rc_;
+}
+inline ::spider::Response* ExecuteSqlResponse::release_rc() {
+  clear_has_rc();
+  ::spider::Response* temp = rc_;
+  rc_ = NULL;
+  return temp;
+}
+inline void ExecuteSqlResponse::set_allocated_rc(::spider::Response* rc) {
+  delete rc_;
+  rc_ = rc;
+  if (rc) {
+    set_has_rc();
+  } else {
+    clear_has_rc();
+  }
+  // @@protoc_insertion_point(field_set_allocated:spider.ExecuteSqlResponse.rc)
+}
+
+// repeated .spider.MysqlRow row = 20;
+inline int ExecuteSqlResponse::row_size() const {
+  return row_.size();
+}
+inline void ExecuteSqlResponse::clear_row() {
+  row_.Clear();
+}
+inline const ::spider::MysqlRow& ExecuteSqlResponse::row(int index) const {
+  // @@protoc_insertion_point(field_get:spider.ExecuteSqlResponse.row)
+  return row_.Get(index);
+}
+inline ::spider::MysqlRow* ExecuteSqlResponse::mutable_row(int index) {
+  // @@protoc_insertion_point(field_mutable:spider.ExecuteSqlResponse.row)
+  return row_.Mutable(index);
+}
+inline ::spider::MysqlRow* ExecuteSqlResponse::add_row() {
+  // @@protoc_insertion_point(field_add:spider.ExecuteSqlResponse.row)
+  return row_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::spider::MysqlRow >&
+ExecuteSqlResponse::row() const {
+  // @@protoc_insertion_point(field_list:spider.ExecuteSqlResponse.row)
+  return row_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::spider::MysqlRow >*
+ExecuteSqlResponse::mutable_row() {
+  // @@protoc_insertion_point(field_mutable_list:spider.ExecuteSqlResponse.row)
+  return &row_;
+}
+
+// optional uint32 insert_id = 30;
+inline bool ExecuteSqlResponse::has_insert_id() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void ExecuteSqlResponse::set_has_insert_id() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void ExecuteSqlResponse::clear_has_insert_id() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void ExecuteSqlResponse::clear_insert_id() {
+  insert_id_ = 0u;
+  clear_has_insert_id();
+}
+inline ::google::protobuf::uint32 ExecuteSqlResponse::insert_id() const {
+  // @@protoc_insertion_point(field_get:spider.ExecuteSqlResponse.insert_id)
+  return insert_id_;
+}
+inline void ExecuteSqlResponse::set_insert_id(::google::protobuf::uint32 value) {
+  set_has_insert_id();
+  insert_id_ = value;
+  // @@protoc_insertion_point(field_set:spider.ExecuteSqlResponse.insert_id)
 }
 
 
