@@ -2,7 +2,7 @@
 
 using namespace std;
 	
-TJob::TJob():event_fd_(-1) {
+TJob::TJob():running_(false), event_fd_(-1) {
 	// No Matter Block
 	event_fd_ = eventfd(0, 0);
 	if (event_fd_ < 0) {
@@ -16,4 +16,8 @@ TJob::TJob():event_fd_(-1) {
 TJob::~TJob() {
 	EventDriver::Instance()->DelEventFd(event_fd_);
 	close(event_fd_);
+}	
+
+int TJob::Process(void *args) {
+	return callback_(args);
 }

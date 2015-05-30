@@ -6,17 +6,25 @@
 
 #include "event_driver.h"
 
+// Callback May Block
+typedef int (*job_cb_t) (void *);
+
 class TJob {
 public:
 	TJob();
 
 	~TJob();
 
-	void Process(void) {
+	void SetCallback(job_cb_t callback)	 {
+		callback_ = callback;
 	}
 
+	int Process(void *args);
+
 private:
+	bool running_;
 	int event_fd_;
+	job_cb_t callback_;
 };
 
 #endif
