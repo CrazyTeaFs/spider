@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string>
 
+#include "locker.h"
+
 // Each Line Can Be Written Less Than 1024 Bytes
 #define LOG_MAX_LINE 1024
 // Enable 128KB Cache
@@ -72,6 +74,8 @@ private:
 	Log(bool enable_buff, const std::string &path = "../log", const std::string &prefix = "undefined", const std::string &suffix = ".log", 
 		Loglevel_t level = LOG_DEBUG);
 
+	Log();
+
 	size_t WriteRecord(Loglevel_t level, const char *file, int line, const char *func, const char *format, va_list args);
 
 	void FindExistingLog();
@@ -91,12 +95,12 @@ private:
 	std::string current_file_;		
 	std::string today_;		
 	
-
 	bool enable_buff_;
 	char *pbuff_;
 	size_t buff_offset_;
 
 	static Log *plog_;
+	Locker locker_;
 };
 
 // File Name, Line Number And Function Name Will Be Printed

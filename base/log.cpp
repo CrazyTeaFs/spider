@@ -10,6 +10,7 @@
 #include <set>
 
 #include "log.h"
+#include "ini.h"
 
 using namespace std;
 
@@ -87,6 +88,69 @@ path_(path), prefix_(prefix), suffix_(suffix), buff_offset_(0) {
 	}	
 }
 
+// Construct By Config
+Log::Log():fd_(-1), buff_offset_(0) {
+	Ini config;
+	if (config.LoadFile("../conf/server.ini") != 0) {
+		printf("Failed To Initialize Configuration File, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	int ret = config.GetStringKey("log", "prefix", prefix_);
+	if (ret != 0) {
+		printf("Failed To Initialize Log Prefix, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	ret = config.GetStringKey("log", "suffix", suffix_);
+	if (ret != 0) {
+		printf("Failed To Initialize Log Suffix, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	ret = config.GetStringKey("log", "path", path_);
+	if (ret != 0) {
+		printf("Failed To Initialize Log Path, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	string loglevel;
+	ret = config.GetStringKey("log", "level", loglevel);
+	if (ret != 0) {
+		printf("Failed To Get Config Log Level, Process Abort\n");
+		exit(EXIT_FAILURE);
+	}
+
+	for (int i = 0; i <= LOG_DEBUG; i++) {
+		if (strcasecmp(Levelname[i].name, loglevel.c_str()) == 0) {
+			level_ = Levelname[i].level;
+		}
+	}
+
+	enable_buff_ = true;
+
+	// Check Existence, If Not, Create It
+	if (access(path_.c_str(), F_OK) != 0) {
+		mkdir(path_.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
+	}
+	// Maxsum File Size 50MB As Default
+	max_size_ = 50 * 1024 * 1024;
+	// Initialise current_file_ 
+	FindExistingLog();
+	// OpenFile, Append Write, Create If Not Exist, User Has RWX right
+	fd_ = open(current_file_.c_str(), O_RDWR | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR);
+
+	pbuff_ = NULL;
+	// Set 128 KB Cache
+	if (enable_buff_) {
+		pbuff_ = (char *) malloc(LOG_CACHE_SIZE * sizeof(char));
+		if (pbuff_ == NULL) {
+			perror("Failed To Allocate Log Buff\n");
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
 // Format: server20150417001.log
 void Log::FindExistingLog() {
 	// Today
@@ -153,11 +217,13 @@ size_t Log::Record(Loglevel_t level, const char *file, int line, const char *fun
 		return 0;
 	}
 
+	locker_.Lock();	
 	size_t bytes = 0;
 	va_list args;
 	va_start(args, format);
 	bytes = WriteRecord(level, file, line, func, format, args);
 	va_end(args);
+	locker_.Unlock();	
 	
 	return bytes;
 }
