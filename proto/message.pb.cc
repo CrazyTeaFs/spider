@@ -259,10 +259,11 @@ void protobuf_AssignDesc_message_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(ExecuteSqlRequest));
   ExecuteSqlResponse_descriptor_ = file->message_type(12);
-  static const int ExecuteSqlResponse_offsets_[3] = {
+  static const int ExecuteSqlResponse_offsets_[4] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, rc_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, row_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, insert_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ExecuteSqlResponse, affected_rows_),
   };
   ExecuteSqlResponse_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -370,29 +371,29 @@ void protobuf_AddDesc_message_2eproto() {
     "Response\022\034\n\002rc\030\n \002(\0132\020.spider.Response\022\023"
     "\n\013friend_list\030\024 \003(\t\"\032\n\010MysqlRow\022\016\n\006colum"
     "n\030\n \003(\t\"1\n\021ExecuteSqlRequest\022\017\n\007db_name\030"
-    "\n \002(\t\022\013\n\003sql\030\024 \002(\t\"d\n\022ExecuteSqlResponse"
+    "\n \002(\t\022\013\n\003sql\030\024 \002(\t\"{\n\022ExecuteSqlResponse"
     "\022\034\n\002rc\030\n \002(\0132\020.spider.Response\022\035\n\003row\030\024 "
     "\003(\0132\020.spider.MysqlRow\022\021\n\tinsert_id\030\036 \001(\r"
-    "*\323\001\n\013MessageType\022\027\n\022HEART_BEAT_REQUEST\020\221"
-    "N\022\030\n\023HEART_BEAT_RESPONSE\020\222N\022\022\n\rLOGIN_REQ"
-    "UEST\020\223N\022\023\n\016LOGIN_RESPONSE\020\224N\022\030\n\023FRIEND_L"
-    "IST_REQUEST\020\225N\022\031\n\024FRIEND_LIST_RESPONSE\020\226"
-    "N\022\030\n\023EXECUTE_SQL_REQUEST\020\227N\022\031\n\024EXECUTE_S"
-    "QL_RESPONSE\020\230N:C\n\022heart_beat_request\022\014.s"
-    "pider.Body\030\221N \001(\0132\030.spider.HeartBeatRequ"
-    "est:E\n\023heart_beat_response\022\014.spider.Body"
-    "\030\222N \001(\0132\031.spider.HeartBeatResponse::\n\rlo"
-    "gin_request\022\014.spider.Body\030\223N \001(\0132\024.spide"
-    "r.LoginRequest:<\n\016login_response\022\014.spide"
-    "r.Body\030\224N \001(\0132\025.spider.LoginResponse:E\n\023"
-    "friend_list_request\022\014.spider.Body\030\225N \001(\013"
-    "2\031.spider.FriendListRequest:G\n\024friend_li"
-    "st_response\022\014.spider.Body\030\226N \001(\0132\032.spide"
-    "r.FriendListResponse:E\n\023execute_sql_requ"
-    "est\022\014.spider.Body\030\227N \001(\0132\031.spider.Execut"
-    "eSqlRequest:H\n\025execute_sql__response\022\014.s"
-    "pider.Body\030\230N \001(\0132\032.spider.ExecuteSqlRes"
-    "ponse", 1525);
+    "\022\025\n\raffected_rows\030( \001(\r*\323\001\n\013MessageType\022"
+    "\027\n\022HEART_BEAT_REQUEST\020\221N\022\030\n\023HEART_BEAT_R"
+    "ESPONSE\020\222N\022\022\n\rLOGIN_REQUEST\020\223N\022\023\n\016LOGIN_"
+    "RESPONSE\020\224N\022\030\n\023FRIEND_LIST_REQUEST\020\225N\022\031\n"
+    "\024FRIEND_LIST_RESPONSE\020\226N\022\030\n\023EXECUTE_SQL_"
+    "REQUEST\020\227N\022\031\n\024EXECUTE_SQL_RESPONSE\020\230N:C\n"
+    "\022heart_beat_request\022\014.spider.Body\030\221N \001(\013"
+    "2\030.spider.HeartBeatRequest:E\n\023heart_beat"
+    "_response\022\014.spider.Body\030\222N \001(\0132\031.spider."
+    "HeartBeatResponse::\n\rlogin_request\022\014.spi"
+    "der.Body\030\223N \001(\0132\024.spider.LoginRequest:<\n"
+    "\016login_response\022\014.spider.Body\030\224N \001(\0132\025.s"
+    "pider.LoginResponse:E\n\023friend_list_reque"
+    "st\022\014.spider.Body\030\225N \001(\0132\031.spider.FriendL"
+    "istRequest:G\n\024friend_list_response\022\014.spi"
+    "der.Body\030\226N \001(\0132\032.spider.FriendListRespo"
+    "nse:E\n\023execute_sql_request\022\014.spider.Body"
+    "\030\227N \001(\0132\031.spider.ExecuteSqlRequest:H\n\025ex"
+    "ecute_sql__response\022\014.spider.Body\030\230N \001(\013"
+    "2\032.spider.ExecuteSqlResponse", 1548);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "message.proto", &protobuf_RegisterTypes);
   SMessage::default_instance_ = new SMessage();
@@ -3686,6 +3687,7 @@ void ExecuteSqlRequest::Swap(ExecuteSqlRequest* other) {
 const int ExecuteSqlResponse::kRcFieldNumber;
 const int ExecuteSqlResponse::kRowFieldNumber;
 const int ExecuteSqlResponse::kInsertIdFieldNumber;
+const int ExecuteSqlResponse::kAffectedRowsFieldNumber;
 #endif  // !_MSC_VER
 
 ExecuteSqlResponse::ExecuteSqlResponse()
@@ -3709,6 +3711,7 @@ void ExecuteSqlResponse::SharedCtor() {
   _cached_size_ = 0;
   rc_ = NULL;
   insert_id_ = 0u;
+  affected_rows_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -3745,12 +3748,26 @@ ExecuteSqlResponse* ExecuteSqlResponse::New() const {
 }
 
 void ExecuteSqlResponse::Clear() {
-  if (_has_bits_[0 / 32] & 5) {
+#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
+  &reinterpret_cast<ExecuteSqlResponse*>(16)->f) - \
+   reinterpret_cast<char*>(16))
+
+#define ZR_(first, last) do {                              \
+    size_t f = OFFSET_OF_FIELD_(first);                    \
+    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
+    ::memset(&first, 0, n);                                \
+  } while (0)
+
+  if (_has_bits_[0 / 32] & 13) {
+    ZR_(insert_id_, affected_rows_);
     if (has_rc()) {
       if (rc_ != NULL) rc_->::spider::Response::Clear();
     }
-    insert_id_ = 0u;
   }
+
+#undef OFFSET_OF_FIELD_
+#undef ZR_
+
   row_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -3803,6 +3820,21 @@ bool ExecuteSqlResponse::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(320)) goto parse_affected_rows;
+        break;
+      }
+
+      // optional uint32 affected_rows = 40;
+      case 40: {
+        if (tag == 320) {
+         parse_affected_rows:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &affected_rows_)));
+          set_has_affected_rows();
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -3849,6 +3881,11 @@ void ExecuteSqlResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(30, this->insert_id(), output);
   }
 
+  // optional uint32 affected_rows = 40;
+  if (has_affected_rows()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(40, this->affected_rows(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -3878,6 +3915,11 @@ void ExecuteSqlResponse::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(30, this->insert_id(), target);
   }
 
+  // optional uint32 affected_rows = 40;
+  if (has_affected_rows()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(40, this->affected_rows(), target);
+  }
+
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -3902,6 +3944,13 @@ int ExecuteSqlResponse::ByteSize() const {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->insert_id());
+    }
+
+    // optional uint32 affected_rows = 40;
+    if (has_affected_rows()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->affected_rows());
     }
 
   }
@@ -3946,6 +3995,9 @@ void ExecuteSqlResponse::MergeFrom(const ExecuteSqlResponse& from) {
     if (from.has_insert_id()) {
       set_insert_id(from.insert_id());
     }
+    if (from.has_affected_rows()) {
+      set_affected_rows(from.affected_rows());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -3976,6 +4028,7 @@ void ExecuteSqlResponse::Swap(ExecuteSqlResponse* other) {
     std::swap(rc_, other->rc_);
     row_.Swap(&other->row_);
     std::swap(insert_id_, other->insert_id_);
+    std::swap(affected_rows_, other->affected_rows_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

@@ -1241,12 +1241,21 @@ class ExecuteSqlResponse : public ::google::protobuf::Message {
   inline ::google::protobuf::uint32 insert_id() const;
   inline void set_insert_id(::google::protobuf::uint32 value);
 
+  // optional uint32 affected_rows = 40;
+  inline bool has_affected_rows() const;
+  inline void clear_affected_rows();
+  static const int kAffectedRowsFieldNumber = 40;
+  inline ::google::protobuf::uint32 affected_rows() const;
+  inline void set_affected_rows(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:spider.ExecuteSqlResponse)
  private:
   inline void set_has_rc();
   inline void clear_has_rc();
   inline void set_has_insert_id();
   inline void clear_has_insert_id();
+  inline void set_has_affected_rows();
+  inline void clear_has_affected_rows();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -1255,6 +1264,7 @@ class ExecuteSqlResponse : public ::google::protobuf::Message {
   ::spider::Response* rc_;
   ::google::protobuf::RepeatedPtrField< ::spider::MysqlRow > row_;
   ::google::protobuf::uint32 insert_id_;
+  ::google::protobuf::uint32 affected_rows_;
   friend void  protobuf_AddDesc_message_2eproto();
   friend void protobuf_AssignDesc_message_2eproto();
   friend void protobuf_ShutdownFile_message_2eproto();
@@ -2380,6 +2390,30 @@ inline void ExecuteSqlResponse::set_insert_id(::google::protobuf::uint32 value) 
   set_has_insert_id();
   insert_id_ = value;
   // @@protoc_insertion_point(field_set:spider.ExecuteSqlResponse.insert_id)
+}
+
+// optional uint32 affected_rows = 40;
+inline bool ExecuteSqlResponse::has_affected_rows() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void ExecuteSqlResponse::set_has_affected_rows() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void ExecuteSqlResponse::clear_has_affected_rows() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void ExecuteSqlResponse::clear_affected_rows() {
+  affected_rows_ = 0u;
+  clear_has_affected_rows();
+}
+inline ::google::protobuf::uint32 ExecuteSqlResponse::affected_rows() const {
+  // @@protoc_insertion_point(field_get:spider.ExecuteSqlResponse.affected_rows)
+  return affected_rows_;
+}
+inline void ExecuteSqlResponse::set_affected_rows(::google::protobuf::uint32 value) {
+  set_has_affected_rows();
+  affected_rows_ = value;
+  // @@protoc_insertion_point(field_set:spider.ExecuteSqlResponse.affected_rows)
 }
 
 

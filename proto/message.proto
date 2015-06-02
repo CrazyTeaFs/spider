@@ -86,7 +86,8 @@ message ExecuteSqlRequest {
 }
 
 message ExecuteSqlResponse {
-	required Response rc 		= 10;
-	repeated MysqlRow row 		= 20;
-	optional uint32 insert_id	= 30;
+	required Response rc 			= 10;
+	repeated MysqlRow row 			= 20;
+	optional uint32 insert_id		= 30;
+	optional uint32 affected_rows	= 40;
 }
