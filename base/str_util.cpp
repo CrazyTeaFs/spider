@@ -131,10 +131,8 @@ bool str_match_filter(const string &regex, const string &source) {
 string to_lower_case(const string &source) {
 	string result = source;
 
-	for (int i = 0; i < result.length(); ++i) {
-		if (result[i] >= 'A' && result[i] <= 'Z') {
-			result[i] = result[i] + 32;
-		}
+	for (size_t i = 0; i < result.length(); ++i) {
+		result[i] = tolower(result[i]);
 	}
 
 	return result;
@@ -143,10 +141,8 @@ string to_lower_case(const string &source) {
 string to_upper_case(const string &source) {
 	string result = source;
 
-	for (int i = 0; i < result.length(); ++i) {
-		if (result[i] >= 'a' && result[i] <= 'z') {
-			result[i] = result[i] - 32;
-		}
+	for (size_t i = 0; i < result.length(); ++i) {
+		result[i] = toupper(result[i]);
 	}
 
 	return result;
