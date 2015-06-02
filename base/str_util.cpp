@@ -127,3 +127,27 @@ bool str_match_filter(const string &regex, const string &source) {
 	regfree(&reg);
 	return true;
 }
+
+string to_lower_case(const string &source) {
+	string result = source;
+
+	for (int i = 0; i < result.length(); ++i) {
+		if (result[i] >= 'A' && result[i] <= 'Z') {
+			result[i] = result[i] + 32;
+		}
+	}
+
+	return result;
+}
+
+string to_upper_case(const string &source) {
+	string result = source;
+
+	for (int i = 0; i < result.length(); ++i) {
+		if (result[i] >= 'a' && result[i] <= 'z') {
+			result[i] = result[i] - 32;
+		}
+	}
+
+	return result;
+}

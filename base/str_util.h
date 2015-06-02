@@ -19,4 +19,8 @@ std::string generate_key(int digit);
 // Wrapper: Check Whether A String Matches A Specified Regular Expression
 bool str_match_filter(const std::string &regex, const std::string &source);
 
+std::string to_lower_case(const std::string &source);
+
+std::string to_upper_case(const std::string &source);
+
 #endif
