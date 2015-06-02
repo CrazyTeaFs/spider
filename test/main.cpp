@@ -22,7 +22,7 @@ using namespace spider;
 using namespace std;
 
 #define VERIFY_DIGIT 10
-#define THREADS 1
+#define THREADS 100
 
 int const APLPHABET = 62;
 char letter[62] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'
@@ -146,7 +146,7 @@ void *benchmark(void* args) {
 	}
 
 	printf("%s Now Start Ping-Pong Alive BenchMark\n", now_str().c_str());
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 200; i++) {
 		SMessage *message = new SMessage;
 		Header *head = new Header;
 		head->set_flow_no(1234);
