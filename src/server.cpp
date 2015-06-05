@@ -14,7 +14,7 @@
 #include "message.pb.h"
 
 static const char *version = "Spider-0.1.1";
-extern LogLevel Levelname[LOG_DEBUG + 1];
+extern LogLevel Levelname[LOG_TRACE + 1];
 
 using namespace std;
 
@@ -80,7 +80,7 @@ int init_config(int &port) {
 	}
 
 	int ret = 0;
-	Loglevel_t level = LOG_DEBUG;
+	Loglevel_t level = LOG_TRACE;
 	string logprefix, path, suffix, loglevel;
 	ret = config.GetStringKey("log", "prefix", logprefix);
 	if (ret != 0) {
